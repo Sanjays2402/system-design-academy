@@ -1,0 +1,12 @@
+# Local QA artifacts
+*.png
+*.zip
+mobile_qa.py
+
+# Python
+__pycache__/
+*.pyc
+
+# OS/editor
+.DS_Store
+.vscode/
