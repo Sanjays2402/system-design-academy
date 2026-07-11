@@ -1,6 +1,7 @@
 from pathlib import Path
 from html import escape
 import json, re, shutil
+from rich_content import rich_html
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "site"
@@ -107,7 +108,7 @@ JS = r'''
 
 HEAD = '''<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script>try{const t=localStorage.getItem('sda-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script>'''
 
-SECTIONS=[("requirements","Requirements"),("scale","Scale & SLOs"),("api","API & data"),("architecture","Architecture"),("flow","Critical flow"),("deep-dives","Deep dives"),("tradeoffs","Trade-offs"),("reliability","Reliability"),("followups","Follow-ups"),("plan","Interview plan")]
+SECTIONS=[("requirements","Requirements"),("clarify","Scope questions"),("scale","Scale & SLOs"),("api","API & data"),("architecture","Architecture"),("flow","Critical flow"),("components","Components"),("algorithm","Algorithm"),("caching","Cache & backpressure"),("deep-dive-expanded","Deep dives"),("failure-matrix","Failure matrix"),("regions","Multi-region"),("security-deep","Security"),("observability-deep","Observability"),("followups","Follow-ups"),("checklist","Checklist")]
 
 def nav_for(current):
     return ''.join(f'<a href="#{i}">{n}</a>' for i,n in SECTIONS)
@@ -123,6 +124,7 @@ def page(item, idx):
     req2=f"Operators can configure policy, recover failures, and audit important state changes."
     primary_key={"Transactions":"transaction_id","Realtime":"conversation_id","Storage":"object_id","Distributed Data":"partition_key","ML Systems":"subject_id"}.get(cat,"resource_id")
     api=f'''POST /v1/{slug}/operations\nIdempotency-Key: 5d6f...\n{{ "actor_id": "u_123", "payload": {{...}} }}\n\nGET /v1/{slug}/{{{primary_key}}}\nGET /v1/{slug}/{{{primary_key}}}/status'''
+    rich=rich_html(item, primary_key)
     deep=''.join(f'<div class="card"><div class="kicker">Deep dive {i+1}</div><h3>{escape(["Correctness boundary","Scale boundary","Operational boundary"][i])}</h3><p>{escape(text)}</p></div>' for i,text in enumerate(focuses))
     fups=''.join(f'<details class="followup" {"open" if i==0 else ""}><summary>{escape(q)}</summary><p>{escape(focuses[i%3])} State the invariant first, then explain the mechanism, failure behavior, and cost of the alternative.</p></details>' for i,q in enumerate(followups))
     prevlink=f'<a href="{prev[1]}.html"><small>Previous design</small>{escape(prev[0])}</a>' if prev else '<span></span>'
@@ -138,6 +140,7 @@ def page(item, idx):
 <section class="section" id="deep-dives"><h2><span class="section-no">06 · DEEP DIVES</span>Where interviewers push</h2><div class="grid3">{deep}</div><p>For each deep dive, name the invariant, show the happy path, introduce one failure, and quantify the cost of your chosen mitigation.</p></section>
 <section class="section" id="tradeoffs"><h2><span class="section-no">07 · DECISIONS</span>Trade-offs</h2><div class="table-wrap"><table><thead><tr><th>Decision</th><th>Prefer when</th><th>Cost</th></tr></thead><tbody><tr><td>Strong vs eventual consistency</td><td>Use strong consistency for ownership, inventory, money, aliases, and state transitions.</td><td>Coordination latency and reduced availability during partitions.</td></tr><tr><td>Sync vs async processing</td><td>Keep only user-visible correctness on the synchronous path.</td><td>Async side effects need idempotency, lag monitoring, and replay.</td></tr><tr><td>SQL vs distributed KV/log</td><td>Choose by access pattern and invariant, not fashion.</td><td>Transactions simplify correctness; distributed stores simplify scale.</td></tr></tbody></table></div></section>
 <section class="section" id="reliability"><h2><span class="section-no">08 · PRODUCTION</span>Failures, security, and observability</h2><div class="grid3"><div class="card"><h3>Failure posture</h3><ul><li>Timeout every dependency.</li><li>Retry only safe operations with jitter.</li><li>Use circuit breakers and admission control.</li><li>Reconcile durable truth after recovery.</li></ul></div><div class="card"><h3>Security posture</h3><ul><li>Authenticate at ingress; authorize per resource.</li><li>Encrypt in transit and at rest.</li><li>Redact sensitive logs.</li><li>Audit privileged mutations.</li></ul></div><div class="card"><h3>Golden signals</h3><ul><li>Rate, errors, and latency percentiles.</li><li>Queue lag and oldest-item age.</li><li>Cache hit ratio and shard skew.</li><li>Replica lag and reconciliation gaps.</li></ul></div></div></section>
+{rich}
 <section class="section" id="followups"><h2><span class="section-no">09 · FOLLOW-UPS</span>Interviewer questions</h2>{fups}</section>
 <section class="section" id="plan"><h2><span class="section-no">10 · INTERVIEW PLAN</span>Use your 45 minutes</h2><div class="table-wrap"><table><thead><tr><th>Minutes</th><th>What to cover</th></tr></thead><tbody><tr><td>0–5</td><td>Clarify scope, scale, SLOs, and the correctness invariant.</td></tr><tr><td>5–10</td><td>Estimate traffic/storage and define APIs and records.</td></tr><tr><td>10–22</td><td>Draw architecture and narrate the critical flow.</td></tr><tr><td>22–35</td><td>Deep dive on partitioning, consistency, and bottlenecks.</td></tr><tr><td>35–42</td><td>Failures, security, observability, and multi-region posture.</td></tr><tr><td>42–45</td><td>Summarize decisions and answer follow-ups.</td></tr></tbody></table></div><div class="callout"><strong>Strong close</strong><p>Restate the invariant, hot path, partition key, consistency model, and graceful-degradation behavior in under one minute.</p></div></section>
 <nav class="page-nav">{prevlink}{nextlink}</nav></main><aside class="toc"><b>On this page</b>{nav_for(slug)}</aside></div><script src="../assets/site.js"></script></body></html>'''
