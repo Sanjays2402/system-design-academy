@@ -6,6 +6,7 @@ from landing_page import landing_html
 from design_specs import get_spec
 from diagram_renderer import architecture_svg as detailed_architecture_svg, sequence_svg as detailed_sequence_svg
 from specific_content import specific_html
+from chapter_page import render_chapter
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "site"
@@ -104,7 +105,7 @@ JS = r'''
   const safeGet=(k)=>{try{return localStorage.getItem(k)}catch{return null}};
   const safeSet=(k,v)=>{try{localStorage.setItem(k,v)}catch{/* storage is optional */}};
   function apply(theme){root.dataset.theme=theme;document.querySelectorAll('[data-theme-toggle]').forEach(b=>{b.setAttribute('aria-pressed',String(theme==='dark'));b.textContent=theme==='dark'?'Light page':'Dark page'})}
-  const saved=safeGet('sda-theme');apply(saved==='dark'||saved==='light'?saved:'light');
+  const saved=safeGet('sda-theme');const preferred=document.body?.dataset.defaultTheme||'light';apply(saved==='dark'||saved==='light'?saved:preferred);
   document.addEventListener('click',e=>{const b=e.target.closest('[data-theme-toggle]');if(b){const next=root.dataset.theme==='dark'?'light':'dark';apply(next);safeSet('sda-theme',next)}const m=e.target.closest('[data-menu]');if(m)document.querySelector('.sidebar')?.classList.toggle('open')});
   const search=document.querySelector('[data-search]');if(search){search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let shown=0;document.querySelectorAll('.design-card').forEach(c=>{const ok=c.textContent.toLowerCase().includes(q);c.hidden=!ok;if(ok)shown++});document.querySelector('.empty').style.display=shown?'none':'block'})}
 })();
@@ -121,6 +122,13 @@ def sidebar_for(item):
     return f'''<aside class="sidebar"><p class="side-eyebrow">Practice problem</p><h2 class="side-title">Design {escape(item[0])}</h2><nav class="side-nav">{nav_for(item[1])}</nav><div class="side-foot"><a href="../index.html">← All {len(Q)} designs</a><br><br>SDE2 · 45-minute walkthrough</div></aside>'''
 
 def page(item, idx):
+    title,slug,cat,tagline,scale,comps,focuses,followups=item
+    spec=get_spec(slug, comps)
+    architecture=detailed_architecture_svg(title, spec)
+    sequence=detailed_sequence_svg(title, spec)
+    return render_chapter(item, idx, len(Q), spec, architecture, sequence, HEAD)
+
+def legacy_page(item, idx):
     title,slug,cat,tagline,scale,comps,focuses,followups=item
     prev=Q[idx-1] if idx else None; nxt=Q[idx+1] if idx<len(Q)-1 else None
     entity=slug.replace('-','_')
@@ -165,6 +173,7 @@ DESIGNS.mkdir(parents=True); ASSETS.mkdir(parents=True)
 (ASSETS/'landing.css').write_text((ROOT/'landing.css').read_text())
 (ASSETS/'landing.js').write_text((ROOT/'landing.js').read_text())
 (ASSETS/'detail.css').write_text((ROOT/'detail.css').read_text())
+(ASSETS/'chapter.css').write_text((ROOT/'chapter.css').read_text())
 (OUT/'index.html').write_text(landing())
 (OUT/'.nojekyll').write_text('')
 for i,item in enumerate(Q): (DESIGNS/f'{item[1]}.html').write_text(page(item,i))

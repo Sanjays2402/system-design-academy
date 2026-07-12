@@ -21,23 +21,31 @@ class Parser(HTMLParser):
 pages=[ROOT/'index.html']+sorted((ROOT/'designs').glob('*.html'))
 expected_pages=manifest['count']+1
 if len(pages)!=expected_pages:errors.append(f'expected {expected_pages} pages, got {len(pages)}')
-expected={'requirements','clarify','scale','estimation-math','api','data-model-deep','architecture','components','flow','algorithm','caching','deep-dives','deep-dive-expanded','tradeoffs','reliability','failure-matrix','regions','security-deep','observability-deep','followups','followup-answers','plan','checklist'}
-expected.update({'system-contract','system-schema','component-map','system-algorithm','specific-failures','specific-answers'})
+expected={'requirements','scale','contract','decisions','flows','performance','consistency','failures','operations','followups','interview'}
 for page in pages:
     p=Parser(); text=page.read_text(); p.feed(text)
     if page.parent.name=='designs':
         missing=expected-p.ids
         if missing:errors.append(f'{page.name}: missing ids {sorted(missing)}')
         if p.svgs!=2:errors.append(f'{page.name}: expected 2 SVGs, got {p.svgs}')
-        if text.count('<details class="followup"')<10:errors.append(f'{page.name}: expected >=10 followup/answer sections')
         if p.theme_buttons<1:errors.append(f'{page.name}: missing theme toggle')
+        if '<html lang="en" data-theme="dark">' not in text:errors.append(f'{page.name}: not dark-first')
+        if text.find('id="architecture"')>text.find('id="requirements"'):errors.append(f'{page.name}: architecture must precede tutorial')
+        if text.count('<section class="chapter"')!=11:errors.append(f'{page.name}: expected exactly 11 coherent chapters')
+        if 'class="chapter-toc"' not in text:errors.append(f'{page.name}: missing sticky tutorial nav')
+        if 'class="deployment-boundary"' not in text:errors.append(f'{page.name}: missing deployment boundary')
+        if text.count('data-kind=')<12:errors.append(f'{page.name}: missing semantic component kinds')
+        if 'MUTATION / COMMIT' not in text or 'ONLINE / READ + RECOVERY' not in text:errors.append(f'{page.name}: missing two-path sequence teaching view')
+        kinds=set(re.findall(r'data-kind="([^"]+)"',text))
+        if len(kinds)<3:errors.append(f'{page.name}: expected >=3 semantic component kinds, got {sorted(kinds)}')
+        if 'service' not in kinds:errors.append(f'{page.name}: missing service/domain components')
         visible=re.sub(r'<script.*?</script>|<style.*?</style>',' ',text,flags=re.S)
         visible=unescape(re.sub(r'<[^>]+>',' ',visible))
         words=re.findall(r"\b[\w’'-]+\b",visible)
         if len(words)<2200:errors.append(f'{page.name}: too shallow ({len(words)} words; need >=2200)')
-        if text.count('<table')<7:errors.append(f'{page.name}: expected >=7 tables')
-        if text.count('<pre')<3:errors.append(f'{page.name}: expected >=3 code/data blocks')
-        if text.count('<details')<13:errors.append(f'{page.name}: expected >=13 expandable deep dives')
+        if text.count('<table')<6:errors.append(f'{page.name}: expected >=6 focused tables')
+        if text.count('<pre')<5:errors.append(f'{page.name}: expected >=5 code/data blocks')
+        if text.count('<details')<8:errors.append(f'{page.name}: expected >=8 focused expandable discussions')
         slug=page.stem; spec=SPECS.get(slug)
         if not spec:errors.append(f'{page.name}: missing design specification')
         else:
@@ -57,7 +65,7 @@ for page in pages:
         if not target.exists():errors.append(f'{page.name}: broken {href}')
 
 js=(ROOT/'assets/site.js').read_text()
-for token in ['try{return localStorage.getItem','try{localStorage.setItem','data-theme-toggle',"?saved:'light'"]:
+for token in ['try{return localStorage.getItem','try{localStorage.setItem','data-theme-toggle','dataset.defaultTheme']:
     if token not in js:errors.append(f'site.js missing safety token: {token}')
 css=(ROOT/'assets/style.css').read_text()
 for token in [':root[data-theme="dark"]','@media(max-width:820px)','@media print']:

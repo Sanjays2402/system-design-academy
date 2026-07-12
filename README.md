@@ -9,11 +9,13 @@ A searchable, offline-friendly SDE2 interview curriculum with **40 dedicated des
 - 30 system-design questions
 - 10 low-level / machine-coding design questions
 - Requirements, estimation math, APIs, concrete records/indexes, architecture, critical flows, algorithms, caching/backpressure, trade-offs, failure matrices, multi-region evolution, security, observability, and interview plans on every page
-- Roughly 4,400 substantive words per chapter (175K+ words total)
-- 12–15 named, system-specific architecture components per design
-- Four concrete API operations, four records/indexes, five exact lifecycle steps, and five named failure drills per chapter
-- Detailed production topology and critical-sequence SVGs with 96–111 labels per page
-- Ten follow-up prompts plus structured answer guidance per design
+- Dark-first, diagram-first chapters modeled as one coherent technical walkthrough
+- Exactly 11 focused tutorial chapters per design, with sticky navigation
+- 12–15 semantically colored, system-specific architecture components per design
+- Separate mutation/commit and online/read/recovery sequence views
+- Four concrete API operations, four records/indexes, exact lifecycle steps, and named failure drills
+- At least six focused decision tables and five concrete code/data blocks per chapter
+- Follow-up prompts with structured answer guidance
 - Persistent black/white reading mode with safe storage fallbacks
 - Responsive navigation, search, and print styles
 

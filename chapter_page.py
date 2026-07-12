@@ -1,0 +1,103 @@
+from html import escape
+
+CHAPTERS = [
+    ('requirements','Requirements'),('scale','Capacity'),('contract','API & data'),
+    ('decisions','Core decisions'),('flows','Critical flows'),('performance','Performance'),
+    ('consistency','Consistency'),('failures','Failures'),('operations','Operations'),
+    ('followups','Follow-ups'),('interview','Interview guide')
+]
+
+
+def _li(items): return ''.join(f'<li>{escape(x)}</li>' for x in items)
+def _details(title, body, opened=False): return f'<details {"open" if opened else ""}><summary>{escape(title)}</summary><div><p>{escape(body)}</p></div></details>'
+def _api_parts(api):
+    parts=api.split(' — ',1); return parts[0],parts[1] if len(parts)>1 else ''
+
+def render_chapter(item, idx, total, spec, architecture, sequence, head):
+    title,slug,cat,tagline,scale,components,focuses,followups=item
+    prev_href=f'{idx-1:02d}'
+    toc=''.join(f'<a href="#{anchor}">{label}</a>' for anchor,label in CHAPTERS)
+    api_blocks=''.join(f'<div class="endpoint"><code>{escape(_api_parts(x)[0])}</code><span>{escape(_api_parts(x)[1])}</span></div>' for x in spec['api'])
+    records='\n\n'.join(spec['records'])
+    command_example=f'''# Command envelope\noperation: {spec['api'][0].split(' — ')[0]}\nrequest_id: req_01J...\nidempotency_key: idem_7f2...\naggregate_key: {slug}_123\nexpected_version: 17\npayload: {{...}}\n\n# Durable event\nevent_id: evt_01J...\naggregate_key: {slug}_123\nevent_type: {slug.replace('-', '_')}_committed\nschema_version: 3\ntrace_id: tr_8ac...'''
+    recovery_example=f'''# Recovery checkpoint\nscenario: {spec['failures'][0]}\noperation_id: op_01J...\naggregate_key: {slug}_123\nlast_durable_version: 18\nprojection_checkpoint: partition-07@offset-482901\nretry_policy: same_identity / bounded_backoff\nreconciliation_status: pending\nowner: {spec['nodes'][-1]}'''
+    component_cards=''.join(f'<div class="decision-card"><div class="decision-head"><i class="dot {color}"></i><h3>{escape(name)}</h3></div><ul><li>{escape(_component_role(name))}</li><li>{escape(_state_role(name))}</li></ul></div>' for name,color in zip(spec['nodes'][:4],['cyan','green','violet','orange']))
+    requirements=[f'Execute the primary {title.lower()} workflow and return an observable result.',f'Expose the concrete operations shown below with stable retry identities.',f'Allow operators to inspect, disable, repair, or replay ambiguous state.',f'Keep derived analytics and notifications off the correctness-critical path.']
+    nonfunctional=[f'Design for {scale}.','Protect the named business invariant under concurrency and partial failure.','Scale by an explicit aggregate/partition key without one global mutex.','Degrade intentionally when cache, queue, store, or regional ownership is unavailable.']
+    scale_rows=''.join(f'<tr><td>{escape(label)}</td><td>{escape(value)}</td><td>{escape(effect)}</td></tr>' for label,value,effect in _capacity_rows(scale,cat))
+    decision_rows=''.join(f'<tr><td><strong>{escape(name)}</strong></td><td>{escape(_component_role(name))}</td><td>{escape(_why_component(name))}</td></tr>' for name in spec['nodes'])
+    flow_cards=''.join(f'<div class="flow-step"><span>{i+1:02d}</span><p>{escape(step)}</p></div>' for i,step in enumerate(spec['steps']))
+    failure_rows=''.join(f'<tr><td><strong>{escape(f)}</strong></td><td>{escape(_failure_behavior(f))}</td><td>{escape(_recovery_proof(f))}</td></tr>' for f in spec['failures'])
+    followup_details=''.join(_details(q,_followup_answer(q,i,spec,focuses),i==0) for i,q in enumerate(followups))
+    core_details=''.join(_details(['Correctness boundary','Scale boundary','Operational boundary'][i],f,i==0) for i,f in enumerate(focuses))
+    return f'''<!doctype html><html lang="en" data-theme="dark"><head>{head}<title>{escape(title)} — System Design Academy</title><meta name="description" content="Production-grade SDE2 tutorial for designing {escape(title)}."><link rel="stylesheet" href="../assets/chapter.css"></head><body class="chapter-page" data-default-theme="dark"><div class="chapter-container">
+<header class="chapter-header"><div class="title-row"><i class="pulse"></i><div><span class="chapter-index">{idx+1:02d} / {total} · {escape(cat)}</span><h1>{escape(title)} — Production Architecture</h1></div><div class="chapter-actions"><a href="../index.html">All designs</a><button data-theme-toggle aria-label="Toggle black and white theme">Light page</button></div></div><p>{escape(tagline)}</p><div class="scale-line">{escape(scale)}</div></header>
+<section class="diagram-panel" id="architecture"><div class="panel-title">1. High-level architecture and data paths</div>{architecture}</section>
+<section class="diagram-panel"><div class="panel-title">2. Critical request and recovery sequence</div>{sequence}</section>
+<div class="decision-grid">{component_cards}</div>
+<nav class="chapter-toc" id="top"><strong>Tutorial:</strong>{toc}</nav>
+<main class="tutorial"><h2>Complete SDE2 Tutorial</h2><p class="tutorial-lead">The design separates the latency-sensitive online path, the correctness-critical durable transition, and asynchronous projection or repair work. Each chapter below explains one decision shown in the diagrams.</p>
+<section class="chapter" id="requirements"><h2>1. Requirements and scope</h2><div class="grid2"><div class="mini"><h3>Functional requirements</h3><ul>{_li(requirements)}</ul></div><div class="mini"><h3>Non-functional requirements</h3><ul>{_li(nonfunctional)}</ul></div></div><div class="callout"><strong>Primary invariant:</strong> {_invariant(cat,title)}</div><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="scale"><h2>2. Capacity assumptions</h2><p>State assumptions before choosing technology. The supplied workload is <strong>{escape(scale)}</strong>. Convert it into peak throughput, retained records, bandwidth, and failure budget; then connect each number to a component.</p><div class="table-wrap"><table><thead><tr><th>Dimension</th><th>Working estimate</th><th>Design implication</th></tr></thead><tbody>{scale_rows}</tbody></table></div><div class="callout warn"><strong>Do not cargo-cult the numbers:</strong> show the arithmetic, name the uncertain variable, and say which production metric will replace the interview estimate.</div><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="contract"><h2>3. API and data model</h2><div class="endpoint-grid">{api_blocks}</div><h3>Authoritative records and indexes</h3><pre>{escape(records)}</pre><h3>Command and event envelopes</h3><pre>{escape(command_example)}</pre><p>The authoritative aggregate and idempotency record share a transactional or conditional-write boundary. Event streams, search indexes, caches, analytics, and dashboards are rebuildable projections.</p><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="decisions"><h2>4. Architecture decisions</h2><div class="table-wrap"><table><thead><tr><th>Component</th><th>Responsibility</th><th>Why it exists</th></tr></thead><tbody>{decision_rows}</tbody></table></div><p>Start with fewer deployables when one team owns the system. Split a component only for independent scale, failure isolation, data ownership, security boundary, or release cadence—not because the diagram needs more boxes.</p>{core_details}<a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="flows"><h2>5. Critical flow and algorithm</h2><div class="flow-list">{flow_cards}</div><h3>Retry-safe mutation skeleton</h3><pre>identity = authenticate(request)
+prior = idempotency.get(identity, request.key)
+if prior: return prior.result
+
+current = authoritative_store.read(partition_key)
+next_state, events = domain.transition(current, request)
+authoritative_store.compare_and_set(current.version, next_state)
+idempotency.commit(request.key, next_state.result)
+outbox.append(events)
+return next_state.result</pre><div class="callout good"><strong>Exactly-once business effect:</strong> the network can duplicate requests. Stable identities, conditional state transitions, immutable event IDs, and reconciliation make the user-visible effect happen once.</div><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="performance"><h2>6. Caching, hot keys, and backpressure</h2>{_performance_details(spec,title)}<div class="callout warn"><strong>Cache outage rule:</strong> never allow every miss to fall through simultaneously. Use local protection, request coalescing, circuit breakers, bounded pools, and controlled fallback.</div><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="consistency"><h2>7. Partitioning and consistency</h2><pre>partition = stable_hash(primary_or_aggregate_key) → shard owner\nwrite = conditional_update(expected_version)\nread_projection = versioned and rebuildable</pre><div class="grid2"><div class="mini"><h3>Strong boundary</h3><p>{escape(_strong_boundary(cat,title))}</p></div><div class="mini"><h3>Eventual boundary</h3><p>Analytics, notifications, search, read models, and operational dashboards may lag when freshness is observable and replay exists.</p></div></div><div class="table-wrap"><table><thead><tr><th>Operation</th><th>Consistency</th><th>Reason</th></tr></thead><tbody><tr><td>Authoritative mutation</td><td>Conditional / serializable</td><td>Protect uniqueness, ownership, money, inventory, order, or legal state transition.</td></tr><tr><td>Read after own write</td><td>Primary, session token, or cache warm</td><td>The caller must observe the result it just committed.</td></tr><tr><td>Ordinary read projection</td><td>Bounded stale where safe</td><td>Replicas and caches improve latency when version/freshness is visible.</td></tr><tr><td>Analytics and operations</td><td>Eventual + replay</td><td>Freshness is less important than isolating the online path.</td></tr></tbody></table></div><ul><li>Route every mutation for one aggregate to one owner/partition epoch.</li><li>Use cursors rather than offsets for changing ordered collections.</li><li>Retain tombstones until replication and repair windows close.</li><li>Move shard ownership through versioned maps and dual-read verification.</li></ul><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="failures"><h2>8. Failure drills and recovery</h2><div class="table-wrap"><table><thead><tr><th>Failure</th><th>Runtime behavior</th><th>Recovery proof</th></tr></thead><tbody>{failure_rows}</tbody></table></div><h3>Recovery checkpoint</h3><pre>{escape(recovery_example)}</pre><p>Every dependency needs a timeout, retry budget, circuit policy, and explicit fail-open, fail-closed, stale, or read-only mode. “Highly available” is incomplete until degraded behavior is named.</p><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="operations"><h2>9. Security, regions, and observability</h2><div class="grid2"><div class="mini"><h3>Security and abuse</h3><ul>{_li(_security(cat,title))}</ul></div><div class="mini"><h3>Signals that prove correctness</h3><ul>{_li(_signals(spec))}</ul></div></div><h3>Regional evolution</h3><ol><li>Begin multi-zone with tested failover, backups, and reconciliation.</li><li>Add global stateless ingress and regional read projections.</li><li>Keep one write owner per aggregate or partition where coordination is expensive.</li><li>Move ownership with epochs/fencing; avoid silent simultaneous writers.</li><li>Use expand/contract schemas, canaries, shadow reads, and reversible cutovers.</li></ol><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="followups"><h2>10. Interviewer follow-ups</h2>{followup_details}<div class="callout"><strong>Answer pattern:</strong> state the invariant, choose a mechanism, walk one failure, name the recovery signal, and explain the cost of the alternative.</div><a class="back" href="#top">↑ top</a></section>
+<section class="chapter" id="interview"><h2>11. How to present this in 45 minutes</h2><div class="table-wrap"><table><thead><tr><th>Time</th><th>What to cover</th></tr></thead><tbody><tr><td>0–5 min</td><td>Clarify scope, workload, SLOs, and the correctness invariant.</td></tr><tr><td>5–10 min</td><td>Estimate throughput/storage and define concrete APIs and records.</td></tr><tr><td>10–20 min</td><td>Draw online, durable-write, and asynchronous/repair paths.</td></tr><tr><td>20–30 min</td><td>Explain the exact lifecycle, partition key, and concurrency control.</td></tr><tr><td>30–38 min</td><td>Discuss caching, hot keys, replication, and backpressure.</td></tr><tr><td>38–43 min</td><td>Run failure drills, security, observability, and regional evolution.</td></tr><tr><td>43–45 min</td><td>Summarize the five most important choices and trade-offs.</td></tr></tbody></table></div><h3>Final decision summary</h3><div class="table-wrap"><table><tbody><tr><th>Invariant</th><td>{escape(_invariant(cat,title))}</td></tr><tr><th>Partitioning</th><td>Stable aggregate/key hash with versioned ownership and measured hot-key isolation.</td></tr><tr><th>Commit</th><td>Expected version or uniqueness at the authoritative state boundary.</td></tr><tr><th>Async work</th><td>Durable outbox/log, idempotent consumers, checkpoints, and replay.</td></tr><tr><th>Recovery</th><td>Same operation identity, durable truth lookup, and business reconciliation.</td></tr></tbody></table></div><h3>Closing summary</h3><div class="callout good"><span class="badge">CLOSING</span> “The design protects {_invariant(cat,title).lower()} The online path stays bounded, authoritative state is versioned and partitioned, and asynchronous work is replayable and observable.”</div><a class="back" href="#top">↑ top</a></section>
+</main><footer>{escape(title)} system design · production architecture, critical sequences, and complete SDE2 tutorial</footer><nav class="page-links"><a href="{f'{idx-1}.html' if False else '../index.html'}">← Curriculum</a><span>{idx+1:02d} / {total}</span></nav></div><script src="../assets/site.js"></script></body></html>'''
+
+
+def _capacity_rows(scale,cat):
+    return [('Traffic',scale,'Separate online compute, durable state, and asynchronous consumers.'),('Peak factor','5–10× average','Admission control, autoscaling headroom, and hot-key protection.'),('Stored state','write rate × retention × record bytes','Partition count, indexes, compaction, backup, and archival tier.'),('Network','peak operations × payload size','Batching, compression, edge placement, and egress budget.'),('Availability','99.9–99.99%','Multi-zone replicas, tested failover, and dependency error budgets.'),('Recovery','RPO/RTO by invariant','Ack boundary, replay retention, reconciliation, and operator runbooks.')]
+def _invariant(cat,title):
+    rules={'Transactions':'no scarce resource or monetary effect is created twice, lost after acknowledgment, or committed without an audit trail.','Realtime':'accepted events remain ordered within their conversation/session and survive reconnects.','Storage':'a published version is complete, checksummed, authorized, and never silently corrupted.','Distributed Data':'acknowledged writes survive the configured failure model and replicas converge.','Low-Level Design':'every object transition is legal and atomic at one aggregate boundary.'}
+    return rules.get(cat,f'each accepted {title.lower()} operation has one stable result and retries do not repeat its business effect.')
+def _component_role(n):
+    n=n.lower()
+    if any(x in n for x in ['client','app','panel','buyer','driver','rider','merchant']):return 'Owns client protocol, request identity, retry, and resume behavior.'
+    if any(x in n for x in ['gateway','api','edge','front door','kiosk']):return 'Owns authentication, validation, quotas, deadlines, and routing.'
+    if any(x in n for x in ['cache','redis','index','fst','trie']):return 'Serves a low-latency, disposable projection with authoritative fallback.'
+    if any(x in n for x in ['queue','stream','kafka','log','journal','outbox']):return 'Preserves durable ordering, replay, and consumer checkpoints.'
+    if any(x in n for x in ['db','store','ledger','inventory','wal','table']):return 'Owns authoritative versioned state or immutable evidence.'
+    if any(x in n for x in ['worker','pipeline','fanout','repair','processor']):return 'Executes idempotent asynchronous work under lease and retry policy.'
+    return 'Owns one bounded domain decision, transition, or operational capability.'
+def _state_role(n):
+    n=n.lower()
+    if any(x in n for x in ['gateway','api','client','worker']):return 'Stateless or lease-scoped; durable progress lives elsewhere.'
+    if any(x in n for x in ['cache','index','presence']):return 'Versioned/TTL projection; safe to rebuild.'
+    if any(x in n for x in ['queue','stream','log']):return 'Append-only offsets and independently checkpointed consumers.'
+    return 'Partitioned by aggregate/key and guarded by version, uniqueness, or fencing.'
+def _why_component(n):
+    n=n.lower()
+    if any(x in n for x in ['audit','reconcil','metric','monitor']):return 'Proves correctness and supports controlled recovery.'
+    if any(x in n for x in ['cache','redis','cdn']):return 'Removes repeated work from the latency-critical path.'
+    if any(x in n for x in ['queue','stream','kafka','outbox']):return 'Decouples bursts and failure from user acknowledgment.'
+    if any(x in n for x in ['db','store','ledger','inventory']):return 'Defines the source of truth and commit boundary.'
+    return 'Separates a distinct scale, ownership, policy, or failure boundary.'
+def _performance_details(spec,title):
+    names=' '.join(spec['nodes']).lower(); cache='Cache immutable or slowly changing reads with versioned keys, TTL jitter, short negative entries, and request coalescing.' if any(x in names for x in ['cache','redis','cdn','index']) else 'Add a cache only for a measured repeated read; do not place mutable correctness state in a disposable layer.'
+    return _details('Cache policy',cache,True)+_details('Hot partition or tenant','Measure per-key and per-tenant skew. Replicate safe reads, isolate the offender, salt only when ordering permits, and enforce budgets.')+_details('Backpressure','Bound queues, buffers, connection pools, and concurrency. Shed low-priority work and scale from lag/oldest-item age rather than CPU alone.')+_details('Stampede and retry storms','Use single-flight/coalescing, jittered expiry, bounded retries, exponential backoff, and circuit breakers so one dependency failure does not multiply traffic.')
+def _strong_boundary(cat,title):return _invariant(cat,title)+' Use a uniqueness constraint, serializable/conditional write, expected version, or fencing token at this boundary.'
+def _security(cat,title):return ['Authenticate at ingress and authorize the exact resource/tenant on every operation.','Encrypt transport and durable data; tokenize or isolate sensitive material.','Rate-limit by tenant, actor, resource, and network; detect enumeration and anomalous fan-out.','Redact secrets and personal data before logs or analytical storage.','Audit privileged mutations, support access, policy changes, and forced recovery.']
+def _signals(spec):return ['User-visible success rate and p50/p95/p99 latency.','Timeouts, circuit state, saturation, and replica health by dependency.','Queue lag, oldest-item age, retries, and dead-letter growth.','Conflict, duplicate-suppression, and reconciliation mismatch counts.',f'Business drill: {spec["failures"][0]} — alert before the user-visible invariant is violated.']
+def _failure_behavior(f):
+    l=f.lower()
+    if any(x in l for x in ['timeout','unknown','uncertain']):return 'Query/retry with the same operation identity; do not issue a second business effect.'
+    if any(x in l for x in ['hot','overload','spike','backlog','starve']):return 'Isolate the key/tenant/priority, apply admission control, and preserve durable work.'
+    if any(x in l for x in ['race','two','duplicate','twice','conflict','overlap']):return 'Resolve at source of truth with uniqueness, expected version, lease generation, or monotonic cursor.'
+    return 'Stop unsafe progress, serve only explicitly safe degraded behavior, and recover from durable state.'
+def _recovery_proof(f):return 'Reconciliation returns zero invariant gaps; lag/replica health and user-visible SLO return to baseline.'
+def _followup_answer(q,i,spec,focuses):return f'{focuses[i%len(focuses)]} Walk the concrete lifecycle step “{spec["steps"][i%len(spec["steps"])]}” Then test it against “{spec["failures"][i%len(spec["failures"])]}”. State the retry identity, durable checkpoint, recovery signal, and cost of the alternative.'
