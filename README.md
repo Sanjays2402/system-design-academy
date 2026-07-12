@@ -13,6 +13,11 @@ A searchable, offline-friendly SDE2 interview curriculum with **40 dedicated des
 - Exactly 11 focused tutorial chapters per design, with sticky navigation
 - 12–15 semantically colored, system-specific architecture components per design
 - Separate mutation/commit and online/read/recovery sequence views
+- Interactive call-flow explorer on every architecture:
+  - mutation/commit, online/read, and failure/recovery routes
+  - play/pause, previous/next, restart, clickable steps, and keyboard controls
+  - animated route packets, active components, and synchronized plain-English narration
+  - static numbered fallback and reduced-motion manual stepping
 - Four concrete API operations, four records/indexes, exact lifecycle steps, and named failure drills
 - At least six focused decision tables and five concrete code/data blocks per chapter
 - Follow-up prompts with structured answer guidance

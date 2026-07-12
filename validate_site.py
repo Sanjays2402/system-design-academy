@@ -36,6 +36,9 @@ for page in pages:
         if 'class="deployment-boundary"' not in text:errors.append(f'{page.name}: missing deployment boundary')
         if text.count('data-kind=')<12:errors.append(f'{page.name}: missing semantic component kinds')
         if 'MUTATION / COMMIT' not in text or 'ONLINE / READ + RECOVERY' not in text:errors.append(f'{page.name}: missing two-path sequence teaching view')
+        for token in ['data-call-flow','data-flows=','data-flow-select="mutation"','data-flow-select="read"','data-flow-select="recovery"','data-flow-play','data-flow-prev','data-flow-next','data-flow-restart','data-flow-list','data-call-flow-overlay']:
+            if token not in text:errors.append(f'{page.name}: missing call-flow token {token}')
+        if text.count('data-node-index=')<12:errors.append(f'{page.name}: missing SVG call-flow node metadata')
         kinds=set(re.findall(r'data-kind="([^"]+)"',text))
         if len(kinds)<3:errors.append(f'{page.name}: expected >=3 semantic component kinds, got {sorted(kinds)}')
         if 'service' not in kinds:errors.append(f'{page.name}: missing service/domain components')
@@ -79,6 +82,11 @@ for token in ['prefers-reduced-motion','IntersectionObserver','requestAnimationF
     if token not in landing_js+landing_css:errors.append(f'landing motion missing: {token}')
 if landing.count('class="design-card"')!=manifest['count']:
     errors.append(f'landing expected {manifest["count"]} design cards')
+call_flow_js=(ROOT/'assets/call-flow.js').read_text()
+call_flow_css=(ROOT/'assets/call-flow.css').read_text()
+for token in ['requestAnimationFrame' if False else 'setTimeout','animateMotion','ArrowRight','ArrowLeft','pagehide' if False else 'prefers-reduced-motion','aria-live']:
+    source=call_flow_js+call_flow_css+(ROOT/'designs/url-shortener.html').read_text()
+    if token not in source:errors.append(f'call-flow assets missing: {token}')
 if errors:
     print('\n'.join(errors));sys.exit(1)
 print(f'PASS: {len(pages)} pages; {len(manifest["pages"])} design routes; all links/sections/diagrams/followups/theme checks valid')

@@ -115,7 +115,7 @@ def architecture_svg(title, spec):
         color, fill = KIND_STYLE[kind]
         text_lines = _lines(name)
         name_text = ''.join(f'<tspan x="{x+box_w/2:.0f}" dy="{0 if j==0 else 17}">{escape(line)}</tspan>' for j,line in enumerate(text_lines))
-        boxes.append(f'''<g class="arch-node" data-kind="{kind}" data-component="{escape(name)}">
+        boxes.append(f'''<g class="arch-node" data-node-index="{i}" data-kind="{kind}" data-component="{escape(name)}">
           <rect x="{x:.0f}" y="{y:.0f}" width="{box_w}" height="{box_h}" rx="12" fill="{fill}" stroke="{color}"/>
           <rect x="{x+12:.0f}" y="{y+12:.0f}" width="30" height="20" rx="10" fill="{color}"/>
           <text x="{x+27:.0f}" y="{y+26:.0f}" text-anchor="middle" class="step">{i+1:02d}</text>
@@ -132,7 +132,7 @@ def architecture_svg(title, spec):
       <text x="42" y="35" class="diagram-title">{escape(title.upper())} · PRODUCTION TOPOLOGY</text>
       <text x="42" y="57" class="diagram-note">{count} named components · solid = request/data dependency · warm curve = control, event, or repair path</text>
       <text x="1238" y="35" text-anchor="end" class="diagram-note">MULTI-ZONE · VERSIONED · REPLAYABLE</text>
-      {layer_labels}{''.join(edges)}{''.join(boxes)}{legend}
+      {layer_labels}{''.join(edges)}{''.join(boxes)}<g class="call-flow-overlay" data-call-flow-overlay aria-hidden="true"></g>{legend}
     </svg>'''
 
 
