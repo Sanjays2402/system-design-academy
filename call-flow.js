@@ -70,11 +70,7 @@
       if(points.length>1){
         const route=element('polyline',{points:points.map(p=>`${p.x},${p.y}`).join(' '),class:'flow-route',stroke:flow.color});
         overlay.append(route);
-        points.forEach((point,index)=>{
-          const badge=element('circle',{cx:point.x,cy:point.y,r:12,class:index===state.step?'flow-badge current':'flow-badge',fill:flow.color});
-          const number=element('text',{x:point.x,y:point.y+3,'text-anchor':'middle',class:'flow-badge-number'});number.textContent=String(index+1);
-          overlay.append(badge,number);
-        });
+        // Keep numbering in the synchronized step list; center badges obscure node labels.
         if(state.step<points.length-1&&!reduced){
           const from=points[state.step],to=points[state.step+1];
           const packet=element('circle',{r:6,class:'flow-packet',fill:flow.color});

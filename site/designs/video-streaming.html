@@ -6,112 +6,127 @@
       <text x="42" y="35" class="diagram-title">VIDEO STREAMING PLATFORM · PRODUCTION TOPOLOGY</text>
       <text x="42" y="57" class="diagram-note">15 named components · solid = request/data dependency · warm curve = control, event, or repair path</text>
       <text x="1238" y="35" text-anchor="end" class="diagram-note">MULTI-ZONE · VERSIONED · REPLAYABLE</text>
-      <text x="42" y="105" class="layer-label" fill="#22d3ee">01 · REQUEST & CONTROL</text><text x="42" y="285" class="layer-label" fill="#c4b5fd">02 · DOMAIN & COORDINATION</text><text x="42" y="465" class="layer-label" fill="#fb923c">03 · DATA, ASYNC & OPERATIONS</text><path d="M268 169 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="161" text-anchor="middle" class="edge-label">request</text><path d="M508 169 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="161" text-anchor="middle" class="edge-label">authenticate</text><path d="M748 169 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="161" text-anchor="middle" class="edge-label">route</text><path d="M988 169 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="161" text-anchor="middle" class="edge-label">validate</text><path d="M1120 222 V254 H160 V286" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="640" y="247" text-anchor="middle" class="edge-label">read / reserve</text><path d="M268 349 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="341" text-anchor="middle" class="edge-label">commit</text><path d="M508 349 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="341" text-anchor="middle" class="edge-label">publish</text><path d="M748 349 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="341" text-anchor="middle" class="edge-label">consume</text><path d="M988 349 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="341" text-anchor="middle" class="edge-label">project</text><path d="M1120 402 V434 H160 V466" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="640" y="427" text-anchor="middle" class="edge-label">observe</text><path d="M268 529 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="521" text-anchor="middle" class="edge-label">repair</text><path d="M508 529 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="521" text-anchor="middle" class="edge-label">reconcile</text><path d="M748 529 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="521" text-anchor="middle" class="edge-label">invalidate</text><path d="M988 529 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="521" text-anchor="middle" class="edge-label">acknowledge</text><path d="M400 222 C400 255,400 255,400 288" class="arch-control" marker-end="url(#arch-arrow-warm)"/><text x="400" y="247" text-anchor="middle" class="edge-label warm">policy snapshot</text><path d="M880 222 C880 345,160 345,160 468" class="arch-async" marker-end="url(#arch-arrow-warm)"/><text x="520" y="337" text-anchor="middle" class="edge-label warm">event stream</text><path d="M880 402 C880 435,1120 435,1120 468" class="arch-async" marker-end="url(#arch-arrow-warm)"/><text x="1000" y="427" text-anchor="middle" class="edge-label warm">telemetry</text><g class="arch-node" data-node-index="0" data-kind="external" data-component="Creator Client">
-          <rect x="52" y="116" width="216" height="106" rx="12" fill="#1e293b" stroke="#94a3b8"/>
+      <g class="call-flow-overlay" data-call-flow-overlay aria-hidden="true"></g><text x="42" y="105" class="layer-label" fill="#22d3ee">01 · REQUEST & CONTROL</text><text x="42" y="285" class="layer-label" fill="#c4b5fd">02 · DOMAIN & COORDINATION</text><text x="42" y="465" class="layer-label" fill="#fb923c">03 · DATA, ASYNC & OPERATIONS</text><path d="M268 169 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="161" text-anchor="middle" class="edge-label">request</text><path d="M508 169 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="161" text-anchor="middle" class="edge-label">authenticate</text><path d="M748 169 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="161" text-anchor="middle" class="edge-label">route</text><path d="M988 169 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="161" text-anchor="middle" class="edge-label">validate</text><path d="M1120 222 V254 H160 V286" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="640" y="247" text-anchor="middle" class="edge-label">read / reserve</text><path d="M268 349 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="341" text-anchor="middle" class="edge-label">commit</text><path d="M508 349 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="341" text-anchor="middle" class="edge-label">publish</text><path d="M748 349 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="341" text-anchor="middle" class="edge-label">consume</text><path d="M988 349 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="341" text-anchor="middle" class="edge-label">project</text><path d="M1120 402 V434 H160 V466" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="640" y="427" text-anchor="middle" class="edge-label">observe</text><path d="M268 529 H282" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="275" y="521" text-anchor="middle" class="edge-label">repair</text><path d="M508 529 H522" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="515" y="521" text-anchor="middle" class="edge-label">reconcile</text><path d="M748 529 H762" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="755" y="521" text-anchor="middle" class="edge-label">invalidate</text><path d="M988 529 H1002" class="arch-edge" marker-end="url(#arch-arrow)"/><text x="995" y="521" text-anchor="middle" class="edge-label">acknowledge</text><path d="M400 222 C400 255,400 255,400 288" class="arch-control" marker-end="url(#arch-arrow-warm)"/><text x="400" y="247" text-anchor="middle" class="edge-label warm">policy snapshot</text><path d="M880 222 C880 345,160 345,160 468" class="arch-async" marker-end="url(#arch-arrow-warm)"/><text x="520" y="337" text-anchor="middle" class="edge-label warm">event stream</text><path d="M880 402 C880 435,1120 435,1120 468" class="arch-async" marker-end="url(#arch-arrow-warm)"/><text x="1000" y="427" text-anchor="middle" class="edge-label warm">telemetry</text><g class="arch-node" data-node-index="0" data-kind="external" data-component="Creator Client">
+          <rect class="node-underlay" x="52" y="116" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="52" y="116" width="216" height="106" rx="12" fill="#1e293b" stroke="#94a3b8"/>
           <rect x="64" y="128" width="30" height="20" rx="10" fill="#94a3b8"/>
           <text x="79" y="142" text-anchor="middle" class="step">01</text>
           <text x="255" y="141" text-anchor="end" class="node-kind">EXTERNAL</text>
           <text x="160" y="167" text-anchor="middle" class="node arch-name"><tspan x="160" dy="0">Creator Client</tspan></text>
           <text x="160" y="207" text-anchor="middle" class="node-sub">interaction boundary</text>
         </g><g class="arch-node" data-node-index="1" data-kind="service" data-component="Resumable Upload API">
-          <rect x="292" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="292" y="116" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="292" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="304" y="128" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="319" y="142" text-anchor="middle" class="step">02</text>
           <text x="495" y="141" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="400" y="167" text-anchor="middle" class="node arch-name"><tspan x="400" dy="0">Resumable Upload</tspan><tspan x="400" dy="17">API</tspan></text>
           <text x="400" y="207" text-anchor="middle" class="node-sub">protocol · auth · quota</text>
         </g><g class="arch-node" data-node-index="2" data-kind="data" data-component="Source Object Store">
-          <rect x="532" y="116" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
+          <rect class="node-underlay" x="532" y="116" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="532" y="116" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
           <rect x="544" y="128" width="30" height="20" rx="10" fill="#a78bfa"/>
           <text x="559" y="142" text-anchor="middle" class="step">03</text>
           <text x="735" y="141" text-anchor="end" class="node-kind">DATA</text>
           <text x="640" y="167" text-anchor="middle" class="node arch-name"><tspan x="640" dy="0">Source Object Store</tspan></text>
           <text x="640" y="207" text-anchor="middle" class="node-sub">authoritative durable state</text>
         </g><g class="arch-node" data-node-index="3" data-kind="service" data-component="Media Probe">
-          <rect x="772" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="772" y="116" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="772" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="784" y="128" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="799" y="142" text-anchor="middle" class="step">04</text>
           <text x="975" y="141" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="880" y="167" text-anchor="middle" class="node arch-name"><tspan x="880" dy="0">Media Probe</tspan></text>
           <text x="880" y="207" text-anchor="middle" class="node-sub">domain subsystem</text>
         </g><g class="arch-node" data-node-index="4" data-kind="service" data-component="Workflow Orchestrator">
-          <rect x="1012" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="1012" y="116" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="1012" y="116" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="1024" y="128" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="1039" y="142" text-anchor="middle" class="step">05</text>
           <text x="1215" y="141" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="1120" y="167" text-anchor="middle" class="node arch-name"><tspan x="1120" dy="0">Workflow</tspan><tspan x="1120" dy="17">Orchestrator</tspan></text>
           <text x="1120" y="207" text-anchor="middle" class="node-sub">decision &amp; coordination</text>
         </g><g class="arch-node" data-node-index="5" data-kind="service" data-component="Transcode Fleet">
-          <rect x="52" y="296" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="52" y="296" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="52" y="296" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="64" y="308" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="79" y="322" text-anchor="middle" class="step">06</text>
           <text x="255" y="321" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="160" y="347" text-anchor="middle" class="node arch-name"><tspan x="160" dy="0">Transcode Fleet</tspan></text>
           <text x="160" y="387" text-anchor="middle" class="node-sub">asynchronous execution</text>
         </g><g class="arch-node" data-node-index="6" data-kind="service" data-component="Quality Validator">
-          <rect x="292" y="296" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="292" y="296" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="292" y="296" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="304" y="308" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="319" y="322" text-anchor="middle" class="step">07</text>
           <text x="495" y="321" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="400" y="347" text-anchor="middle" class="node arch-name"><tspan x="400" dy="0">Quality Validator</tspan></text>
           <text x="400" y="387" text-anchor="middle" class="node-sub">domain subsystem</text>
         </g><g class="arch-node" data-node-index="7" data-kind="data" data-component="Rendition Store">
-          <rect x="532" y="296" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
+          <rect class="node-underlay" x="532" y="296" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="532" y="296" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
           <rect x="544" y="308" width="30" height="20" rx="10" fill="#a78bfa"/>
           <text x="559" y="322" text-anchor="middle" class="step">08</text>
           <text x="735" y="321" text-anchor="end" class="node-kind">DATA</text>
           <text x="640" y="347" text-anchor="middle" class="node arch-name"><tspan x="640" dy="0">Rendition Store</tspan></text>
           <text x="640" y="387" text-anchor="middle" class="node-sub">authoritative durable state</text>
         </g><g class="arch-node" data-node-index="8" data-kind="data" data-component="Manifest Publisher">
-          <rect x="772" y="296" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
+          <rect class="node-underlay" x="772" y="296" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="772" y="296" width="216" height="106" rx="12" fill="#301765" stroke="#a78bfa"/>
           <rect x="784" y="308" width="30" height="20" rx="10" fill="#a78bfa"/>
           <text x="799" y="322" text-anchor="middle" class="step">09</text>
           <text x="975" y="321" text-anchor="end" class="node-kind">DATA</text>
           <text x="880" y="347" text-anchor="middle" class="node arch-name"><tspan x="880" dy="0">Manifest Publisher</tspan></text>
           <text x="880" y="387" text-anchor="middle" class="node-sub">domain subsystem</text>
         </g><g class="arch-node" data-node-index="9" data-kind="stream" data-component="Catalog DB">
-          <rect x="1012" y="296" width="216" height="106" rx="12" fill="#54230e" stroke="#fb923c"/>
+          <rect class="node-underlay" x="1012" y="296" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="1012" y="296" width="216" height="106" rx="12" fill="#54230e" stroke="#fb923c"/>
           <rect x="1024" y="308" width="30" height="20" rx="10" fill="#fb923c"/>
           <text x="1039" y="322" text-anchor="middle" class="step">10</text>
           <text x="1215" y="321" text-anchor="end" class="node-kind">STREAM</text>
           <text x="1120" y="347" text-anchor="middle" class="node arch-name"><tspan x="1120" dy="0">Catalog DB</tspan></text>
           <text x="1120" y="387" text-anchor="middle" class="node-sub">durable ordered events</text>
         </g><g class="arch-node" data-node-index="10" data-kind="service" data-component="Playback API">
-          <rect x="52" y="476" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="52" y="476" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="52" y="476" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="64" y="488" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="79" y="502" text-anchor="middle" class="step">11</text>
           <text x="255" y="501" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="160" y="527" text-anchor="middle" class="node arch-name"><tspan x="160" dy="0">Playback API</tspan></text>
           <text x="160" y="567" text-anchor="middle" class="node-sub">protocol · auth · quota</text>
         </g><g class="arch-node" data-node-index="11" data-kind="service" data-component="Token / DRM Service">
-          <rect x="292" y="476" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
+          <rect class="node-underlay" x="292" y="476" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="292" y="476" width="216" height="106" rx="12" fill="#063e30" stroke="#34d399"/>
           <rect x="304" y="488" width="30" height="20" rx="10" fill="#34d399"/>
           <text x="319" y="502" text-anchor="middle" class="step">12</text>
           <text x="495" y="501" text-anchor="end" class="node-kind">SERVICE</text>
           <text x="400" y="527" text-anchor="middle" class="node arch-name"><tspan x="400" dy="0">Token/DRM Service</tspan></text>
           <text x="400" y="567" text-anchor="middle" class="node-sub">domain subsystem</text>
         </g><g class="arch-node" data-node-index="12" data-kind="edge" data-component="Multi-CDN Router">
-          <rect x="532" y="476" width="216" height="106" rx="12" fill="#3b2609" stroke="#fbbf24"/>
+          <rect class="node-underlay" x="532" y="476" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="532" y="476" width="216" height="106" rx="12" fill="#3b2609" stroke="#fbbf24"/>
           <rect x="544" y="488" width="30" height="20" rx="10" fill="#fbbf24"/>
           <text x="559" y="502" text-anchor="middle" class="step">13</text>
           <text x="735" y="501" text-anchor="end" class="node-kind">EDGE</text>
           <text x="640" y="527" text-anchor="middle" class="node arch-name"><tspan x="640" dy="0">Multi-CDN Router</tspan></text>
           <text x="640" y="567" text-anchor="middle" class="node-sub">routing &amp; ownership</text>
         </g><g class="arch-node" data-node-index="13" data-kind="external" data-component="Viewer Player">
-          <rect x="772" y="476" width="216" height="106" rx="12" fill="#1e293b" stroke="#94a3b8"/>
+          <rect class="node-underlay" x="772" y="476" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="772" y="476" width="216" height="106" rx="12" fill="#1e293b" stroke="#94a3b8"/>
           <rect x="784" y="488" width="30" height="20" rx="10" fill="#94a3b8"/>
           <text x="799" y="502" text-anchor="middle" class="step">14</text>
           <text x="975" y="501" text-anchor="end" class="node-kind">EXTERNAL</text>
           <text x="880" y="527" text-anchor="middle" class="node arch-name"><tspan x="880" dy="0">Viewer Player</tspan></text>
           <text x="880" y="567" text-anchor="middle" class="node-sub">interaction boundary</text>
         </g><g class="arch-node" data-node-index="14" data-kind="stream" data-component="QoE Event Stream">
-          <rect x="1012" y="476" width="216" height="106" rx="12" fill="#54230e" stroke="#fb923c"/>
+          <rect class="node-underlay" x="1012" y="476" width="216" height="106" rx="12" style="fill:#07101f!important;stroke:none!important"/>
+          <rect class="node-surface" x="1012" y="476" width="216" height="106" rx="12" fill="#54230e" stroke="#fb923c"/>
           <rect x="1024" y="488" width="30" height="20" rx="10" fill="#fb923c"/>
           <text x="1039" y="502" text-anchor="middle" class="step">15</text>
           <text x="1215" y="501" text-anchor="end" class="node-kind">STREAM</text>
           <text x="1120" y="527" text-anchor="middle" class="node arch-name"><tspan x="1120" dy="0">QoE Event Stream</tspan></text>
           <text x="1120" y="567" text-anchor="middle" class="node-sub">durable ordered events</text>
-        </g><g class="call-flow-overlay" data-call-flow-overlay aria-hidden="true"></g><rect x="100" y="696" width="15" height="9" rx="2" fill="#1e293b" stroke="#94a3b8"/><text x="121" y="704" class="legend-label">external</text><rect x="255" y="696" width="15" height="9" rx="2" fill="#3b2609" stroke="#fbbf24"/><text x="276" y="704" class="legend-label">edge</text><rect x="410" y="696" width="15" height="9" rx="2" fill="#063e30" stroke="#34d399"/><text x="431" y="704" class="legend-label">service</text><rect x="565" y="696" width="15" height="9" rx="2" fill="#301765" stroke="#a78bfa"/><text x="586" y="704" class="legend-label">data</text><rect x="720" y="696" width="15" height="9" rx="2" fill="#54230e" stroke="#fb923c"/><text x="741" y="704" class="legend-label">stream</text><rect x="875" y="696" width="15" height="9" rx="2" fill="#57152a" stroke="#fb7185"/><text x="896" y="704" class="legend-label">security</text><rect x="1030" y="696" width="15" height="9" rx="2" fill="#083344" stroke="#22d3ee"/><text x="1051" y="704" class="legend-label">ops</text>
+        </g><rect x="100" y="696" width="15" height="9" rx="2" fill="#1e293b" stroke="#94a3b8"/><text x="121" y="704" class="legend-label">external</text><rect x="255" y="696" width="15" height="9" rx="2" fill="#3b2609" stroke="#fbbf24"/><text x="276" y="704" class="legend-label">edge</text><rect x="410" y="696" width="15" height="9" rx="2" fill="#063e30" stroke="#34d399"/><text x="431" y="704" class="legend-label">service</text><rect x="565" y="696" width="15" height="9" rx="2" fill="#301765" stroke="#a78bfa"/><text x="586" y="704" class="legend-label">data</text><rect x="720" y="696" width="15" height="9" rx="2" fill="#54230e" stroke="#fb923c"/><text x="741" y="704" class="legend-label">stream</text><rect x="875" y="696" width="15" height="9" rx="2" fill="#57152a" stroke="#fb7185"/><text x="896" y="704" class="legend-label">security</text><rect x="1030" y="696" width="15" height="9" rx="2" fill="#083344" stroke="#22d3ee"/><text x="1051" y="704" class="legend-label">ops</text>
     </svg><div class="flow-console"><div class="flow-toolbar" role="group" aria-label="Call flow controls"><div class="flow-tabs"><button class="flow-tab active" data-flow-select="mutation" aria-pressed="true"><i style="--flow-color:#34d399"></i>Mutation / commit</button><button class="flow-tab " data-flow-select="read" aria-pressed="false"><i style="--flow-color:#22d3ee"></i>Online / read</button><button class="flow-tab " data-flow-select="recovery" aria-pressed="false"><i style="--flow-color:#fb923c"></i>Failure / recovery</button></div><div class="flow-actions"><button data-flow-prev aria-label="Previous call-flow step">←</button><button data-flow-play aria-label="Play call flow">Play</button><button data-flow-next aria-label="Next call-flow step">→</button><button data-flow-restart aria-label="Restart call flow">Restart</button></div></div><div class="flow-status" role="status" aria-live="polite"><span data-flow-counter>Step 1 / 7</span><strong data-flow-title>Creator Client</strong><p data-flow-description>The caller starts the operation at Creator Client with a stable request and retry identity.</p></div><ol class="flow-static-list" data-flow-list><li class="active" data-static-flow-step="0"><b>01 · Creator Client</b><span>The caller starts the operation at Creator Client with a stable request and retry identity.</span></li><li class="" data-static-flow-step="1"><b>02 · Resumable Upload API</b><span>Verify and probe the committed source before creating rendition jobs.</span></li><li class="" data-static-flow-step="2"><b>03 · Workflow Orchestrator</b><span>Fan out codec/resolution tasks with deterministic output keys and retry-safe jobs.</span></li><li class="" data-static-flow-step="3"><b>04 · Multi-CDN Router</b><span>Validate duration, keyframes, audio sync, and segment checksums for every rendition.</span></li><li class="" data-static-flow-step="4"><b>05 · Source Object Store</b><span>Atomically publish one manifest version only after the minimum ladder is complete.</span></li><li class="" data-static-flow-step="5"><b>06 · Rendition Store</b><span>Authorize playback, issue short-lived tokens, and let the player adapt from throughput/buffer.</span></li><li class="" data-static-flow-step="6"><b>07 · Catalog DB</b><span>Catalog DB durably records side effects so workers can replay them independently.</span></li></ol></div></section>
 <section class="diagram-panel"><div class="panel-title">2. Critical request and recovery sequence</div><svg viewBox="0 0 1280 500" role="img" aria-label="Video Streaming Platform mutation and online request sequences">
       <defs><marker id="seq-arrow" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#94a3b8"/></marker><marker id="seq-warm" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0,9 3.5,0 7" fill="#fb923c"/></marker><pattern id="seq-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#1e293b" stroke-width=".5"/></pattern></defs>

@@ -39,6 +39,9 @@ for page in pages:
         for token in ['data-call-flow','data-flows=','data-flow-select="mutation"','data-flow-select="read"','data-flow-select="recovery"','data-flow-play','data-flow-prev','data-flow-next','data-flow-restart','data-flow-list','data-call-flow-overlay']:
             if token not in text:errors.append(f'{page.name}: missing call-flow token {token}')
         if text.count('data-node-index=')<12:errors.append(f'{page.name}: missing SVG call-flow node metadata')
+        overlay_pos=text.find('data-call-flow-overlay')
+        first_node_pos=text.find('data-node-index=')
+        if overlay_pos<0 or first_node_pos<0 or overlay_pos>first_node_pos:errors.append(f'{page.name}: call-flow overlay must render behind component nodes')
         kinds=set(re.findall(r'data-kind="([^"]+)"',text))
         if len(kinds)<3:errors.append(f'{page.name}: expected >=3 semantic component kinds, got {sorted(kinds)}')
         if 'service' not in kinds:errors.append(f'{page.name}: missing service/domain components')
@@ -84,6 +87,7 @@ if landing.count('class="design-card"')!=manifest['count']:
     errors.append(f'landing expected {manifest["count"]} design cards')
 call_flow_js=(ROOT/'assets/call-flow.js').read_text()
 call_flow_css=(ROOT/'assets/call-flow.css').read_text()
+if 'flow-badge' in call_flow_js:errors.append('call-flow center badges must not obscure component labels')
 for token in ['requestAnimationFrame' if False else 'setTimeout','animateMotion','ArrowRight','ArrowLeft','pagehide' if False else 'prefers-reduced-motion','aria-live']:
     source=call_flow_js+call_flow_css+(ROOT/'designs/url-shortener.html').read_text()
     if token not in source:errors.append(f'call-flow assets missing: {token}')
