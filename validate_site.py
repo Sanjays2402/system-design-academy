@@ -1,7 +1,8 @@
 from pathlib import Path
 from html.parser import HTMLParser
-from html import unescape
+from html import unescape, escape
 import json, re, sys
+from design_specs import SPECS
 
 ROOT=Path(__file__).parent/'site'
 manifest=json.loads((ROOT/'manifest.json').read_text())
@@ -21,6 +22,7 @@ pages=[ROOT/'index.html']+sorted((ROOT/'designs').glob('*.html'))
 expected_pages=manifest['count']+1
 if len(pages)!=expected_pages:errors.append(f'expected {expected_pages} pages, got {len(pages)}')
 expected={'requirements','clarify','scale','estimation-math','api','data-model-deep','architecture','components','flow','algorithm','caching','deep-dives','deep-dive-expanded','tradeoffs','reliability','failure-matrix','regions','security-deep','observability-deep','followups','followup-answers','plan','checklist'}
+expected.update({'system-contract','system-schema','component-map','system-algorithm','specific-failures','specific-answers'})
 for page in pages:
     p=Parser(); text=page.read_text(); p.feed(text)
     if page.parent.name=='designs':
@@ -36,6 +38,19 @@ for page in pages:
         if text.count('<table')<7:errors.append(f'{page.name}: expected >=7 tables')
         if text.count('<pre')<3:errors.append(f'{page.name}: expected >=3 code/data blocks')
         if text.count('<details')<13:errors.append(f'{page.name}: expected >=13 expandable deep dives')
+        slug=page.stem; spec=SPECS.get(slug)
+        if not spec:errors.append(f'{page.name}: missing design specification')
+        else:
+            match=re.search(r'data-component-count="(\d+)"',text)
+            count=int(match.group(1)) if match else 0
+            if count<12:errors.append(f'{page.name}: architecture has only {count} components')
+            if text.count('<text')<55:errors.append(f'{page.name}: diagrams are too sparse ({text.count("<text")} labels)')
+            for term in spec['nodes']+spec['failures']:
+                if escape(term) not in text:errors.append(f'{page.name}: missing specific term {term}')
+            for operation in spec['api']:
+                parts=operation.split(' — ',1)
+                for part in parts:
+                    if escape(part) not in text:errors.append(f'{page.name}: missing API term {part}')
     for href in p.links:
         if href.startswith(('http:','https:','mailto:','#')):continue
         target=(page.parent/href.split('#')[0]).resolve()
