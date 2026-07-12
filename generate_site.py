@@ -2,6 +2,7 @@ from pathlib import Path
 from html import escape
 import json, re, shutil
 from rich_content import rich_html
+from landing_page import landing_html
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "site"
@@ -147,14 +148,14 @@ def page(item, idx):
     return body
 
 def landing():
-    cards=''.join(f'<a class="design-card" href="designs/{q[1]}.html"><span class="n">{i+1:02d} / {len(Q)}</span><h2>{escape(q[0])}</h2><p>{escape(q[3])}</p><div class="category">{escape(q[2])}</div></a>' for i,q in enumerate(Q))
-    cats=', '.join(sorted(set(q[2] for q in Q)))
-    return f'''<!doctype html><html lang="en"><head>{HEAD}<title>System Design Academy · {len(Q)} SDE2 Deep Dives</title><meta name="description" content="{len(Q)} interview-ready SDE2 system and low-level design deep dives with architecture diagrams and follow-up questions."><link rel="stylesheet" href="assets/style.css"></head><body><header class="topbar"><a class="brand" href="index.html"><b>SD</b>System Design Academy</a><div class="crumb">{len(Q)} interview-ready design chapters</div><button class="theme-toggle" data-theme-toggle aria-label="Toggle black and white theme">Dark page</button></header><main class="landing"><span class="eyebrow">SDE2 curriculum · {len(Q)} designs</span><h1>Learn to design systems that survive the follow-up.</h1><p class="dek">A practical curriculum covering system design and low-level design: requirements, estimates, APIs, data models, architecture, critical flows, trade-offs, failures, and interviewer follow-ups. Every chapter includes custom diagrams and a 45-minute interview plan.</p><div class="meta"><span class="chip">{len(Q)} deep dives</span><span class="chip">Architecture + sequence diagrams</span><span class="chip">Black / white reading modes</span><span class="chip">Offline-friendly</span></div><div class="landing-controls"><input class="search" type="search" data-search placeholder="Filter by system, category, or concept…" aria-label="Filter design questions"></div><div class="catalog">{cards}</div><div class="empty">No design matches that filter.</div><footer class="section"><p>Categories: {escape(cats)}.</p><p>Built as an original interview-learning artifact. No proprietary course content or branding.</p></footer></main><script src="assets/site.js"></script></body></html>'''
+    return landing_html(Q, HEAD)
 
 if OUT.exists(): shutil.rmtree(OUT)
 DESIGNS.mkdir(parents=True); ASSETS.mkdir(parents=True)
 (ASSETS/'style.css').write_text(CSS)
 (ASSETS/'site.js').write_text(JS)
+(ASSETS/'landing.css').write_text((ROOT/'landing.css').read_text())
+(ASSETS/'landing.js').write_text((ROOT/'landing.js').read_text())
 (OUT/'index.html').write_text(landing())
 (OUT/'.nojekyll').write_text('')
 for i,item in enumerate(Q): (DESIGNS/f'{item[1]}.html').write_text(page(item,i))

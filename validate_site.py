@@ -47,6 +47,15 @@ for token in ['try{return localStorage.getItem','try{localStorage.setItem','data
 css=(ROOT/'assets/style.css').read_text()
 for token in [':root[data-theme="dark"]','@media(max-width:820px)','@media print']:
     if token not in css:errors.append(f'style.css missing: {token}')
+landing=(ROOT/'index.html').read_text()
+landing_js=(ROOT/'assets/landing.js').read_text()
+landing_css=(ROOT/'assets/landing.css').read_text()
+for token in ['data-topology','data-curriculum-search','data-visible-count','data-filter="all"','learning-path','hero-stage']:
+    if token not in landing:errors.append(f'landing missing: {token}')
+for token in ['prefers-reduced-motion','IntersectionObserver','requestAnimationFrame','getContext','pagehide']:
+    if token not in landing_js+landing_css:errors.append(f'landing motion missing: {token}')
+if landing.count('class="design-card"')!=manifest['count']:
+    errors.append(f'landing expected {manifest["count"]} design cards')
 if errors:
     print('\n'.join(errors));sys.exit(1)
 print(f'PASS: {len(pages)} pages; {len(manifest["pages"])} design routes; all links/sections/diagrams/followups/theme checks valid')
