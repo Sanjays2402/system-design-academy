@@ -3,10 +3,11 @@ from html import escape
 import json, re, shutil
 from rich_content import rich_html
 from landing_page import landing_html
-from design_specs import get_spec
+from design_specs import get_spec, SPECS
 from diagram_renderer import architecture_svg as detailed_architecture_svg, sequence_svg as detailed_sequence_svg
 from specific_content import specific_html
 from chapter_page import render_chapter
+from extra_designs import EXTRA, SPECS as EXTRA_SPECS
 
 ROOT = Path(__file__).parent
 OUT = ROOT / "site"
@@ -63,6 +64,9 @@ Q.extend([
 ])
 
 assert len(Q) == 40
+Q.extend(EXTRA)
+SPECS.update(EXTRA_SPECS)
+assert len(Q) == 60 and len(SPECS) == 60
 
 def slugify(s):
     return re.sub(r'[^a-z0-9]+','-',s.lower()).strip('-')
@@ -119,7 +123,7 @@ def nav_for(current):
     return ''.join(f'<a href="#{i}">{n}</a>' for i,n in SECTIONS)
 
 def sidebar_for(item):
-    return f'''<aside class="sidebar"><p class="side-eyebrow">Practice problem</p><h2 class="side-title">Design {escape(item[0])}</h2><nav class="side-nav">{nav_for(item[1])}</nav><div class="side-foot"><a href="../index.html">← All {len(Q)} designs</a><br><br>SDE2 · 45-minute walkthrough</div></aside>'''
+    return f'''<aside class="sidebar"><p class="side-eyebrow">Practice problem</p><h2 class="side-title">Design {escape(item[0])}</h2><nav class="side-nav">{nav_for(item[1])}</nav><div class="side-foot"><a href="../index.html">← All {len(Q)} designs</a><br><br>Architecture · 45-minute walkthrough</div></aside>'''
 
 def page(item, idx):
     title,slug,cat,tagline,scale,comps,focuses,followups=item
@@ -147,7 +151,7 @@ def legacy_page(item, idx):
     nextlink=f'<a href="{nxt[1]}.html"><small>Next design</small>{escape(nxt[0])}</a>' if nxt else '<a href="../index.html"><small>Complete</small>Back to curriculum</a>'
     body=f'''<!doctype html><html lang="en"><head>{HEAD}<title>Design {escape(title)} · System Design Academy</title><meta name="description" content="Interview-ready deep dive for designing {escape(title)}."><link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/detail.css"></head><body>
 <header class="topbar"><a class="brand" href="../index.html"><b>SD</b>System Design Academy</a><div class="crumb">Curriculum / {escape(cat)} / {escape(title)}</div><button class="print-btn" onclick="print()">Print</button><button class="menu-btn" data-menu>Sections</button><button class="theme-toggle" data-theme-toggle aria-label="Toggle black and white theme">Dark page</button></header>{sidebar_for(item)}
-<div class="shell"><main class="article"><section id="requirements"><span class="eyebrow">{idx+1:02d} / {len(Q)} · {escape(cat)}</span><h1>Design {escape(title)}</h1><p class="dek">{escape(tagline)}</p><div class="meta"><span class="chip">SDE2</span><span class="chip">45 min</span><span class="chip">{escape(scale)}</span></div><div class="callout"><strong>Clarify before drawing</strong><p>Confirm scope, traffic shape, latency and durability targets, regional requirements, and which operation must remain correct during partial failure.</p></div>
+<div class="shell"><main class="article"><section id="requirements"><span class="eyebrow">{idx+1:02d} / {len(Q)} · {escape(cat)}</span><h1>Design {escape(title)}</h1><p class="dek">{escape(tagline)}</p><div class="meta"><span class="chip">Architecture</span><span class="chip">45 min</span><span class="chip">{escape(scale)}</span></div><div class="callout"><strong>Clarify before drawing</strong><p>Confirm scope, traffic shape, latency and durability targets, regional requirements, and which operation must remain correct during partial failure.</p></div>
 <h2 class="section"><span class="section-no">01 · REQUIREMENTS</span>Define the contract</h2><div class="grid2"><div class="card"><div class="kicker">Functional</div><h3>User outcomes</h3><ul><li>{escape(req1)}</li><li>{escape(req2)}</li><li>Clients can retry safely and observe a stable result.</li><li>Administrators can disable or repair problematic resources.</li></ul></div><div class="card"><div class="kicker">Non-functional</div><h3>System guarantees</h3><ul><li>Meet the stated latency and availability target.</li><li>Preserve the primary correctness invariant under concurrency.</li><li>Scale horizontally without one global hot partition.</li><li>Expose enough telemetry to detect lag, saturation, and loss.</li></ul></div></div></section>
 <section class="section" id="scale"><h2><span class="section-no">02 · SCALE</span>Capacity and service levels</h2><div class="table-wrap"><table><thead><tr><th>Dimension</th><th>Target</th><th>Architecture consequence</th></tr></thead><tbody><tr><td>Workload</td><td>{escape(scale)}</td><td>Separate stateless compute from durable state and scale each path independently.</td></tr><tr><td>Peak factor</td><td>Assume 5–10× average</td><td>Queues, autoscaling, admission control, and hot-key protection are required.</td></tr><tr><td>Availability</td><td>99.9–99.99%</td><td>Multi-zone replicas, bounded retries, and explicit degraded behavior.</td></tr><tr><td>Durability</td><td>Operation-specific</td><td>Acknowledge only after the minimum durable state required by the invariant.</td></tr></tbody></table></div><div class="callout"><strong>Interview move</strong><p>Do not list numbers without consequences. Tie each estimate to a cache, partition, replica, queue, or consistency decision.</p></div></section>
 <section class="section" id="api"><h2><span class="section-no">03 · CONTRACT</span>API and data model</h2><pre>{escape(api)}</pre><div class="grid2"><div class="card"><h3>Primary record</h3><p><code>{primary_key}</code>, owner/tenant, state, version, timestamps, policy, and an idempotency key. Keep a version for conditional writes.</p></div><div class="card"><h3>Event record</h3><p><code>event_id</code>, aggregate ID, event type, occurred_at, actor, schema version, and trace ID. Events are immutable and replayable.</p></div></div></section>
@@ -176,6 +180,7 @@ DESIGNS.mkdir(parents=True); ASSETS.mkdir(parents=True)
 (ASSETS/'chapter.css').write_text((ROOT/'chapter.css').read_text())
 (ASSETS/'call-flow.css').write_text((ROOT/'call-flow.css').read_text())
 (ASSETS/'call-flow.js').write_text((ROOT/'call-flow.js').read_text())
+(ASSETS/'depth.css').write_text((ROOT/'depth.css').read_text())
 (OUT/'index.html').write_text(landing())
 (OUT/'.nojekyll').write_text('')
 for i,item in enumerate(Q): (DESIGNS/f'{item[1]}.html').write_text(page(item,i))

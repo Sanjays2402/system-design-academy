@@ -39,7 +39,27 @@
     "board-card-game",
     "logging-framework",
     "lru-cache",
-    "task-management"
+    "task-management",
+    "web-search-engine",
+    "email-service",
+    "live-streaming",
+    "ad-serving",
+    "stock-exchange",
+    "food-delivery",
+    "hotel-reservation",
+    "digital-wallet",
+    "expense-sharing",
+    "auction-platform",
+    "maps-navigation",
+    "service-discovery",
+    "secrets-management",
+    "ci-cd-platform",
+    "package-registry",
+    "workflow-orchestrator",
+    "distributed-sql",
+    "identity-auth",
+    "spreadsheet-engine",
+    "file-system"
   ],
-  "count": 40
+  "count": 60
 }

@@ -1,12 +1,14 @@
 """Build system-specific call-flow routes from each design specification."""
+import re
 
 
 def _kind(name):
     n=name.lower()
-    if any(x in n for x in ('client','app','browser','mobile','web','creator','viewer','buyer','driver','rider','merchant','operator','player','panel','keypad')): return 'external'
+    words=set(re.findall(r'[a-z0-9]+',n))
+    if any(x in words for x in ('client','app','browser','mobile','web','ui','creator','viewer','buyer','driver','rider','merchant','operator','player','panel','keypad')): return 'external'
     if any(x in n for x in ('auth','risk','policy','waf','fraud','vault','classifier','scanner','abuse','safety','interlock')): return 'security'
     if any(x in n for x in ('queue','stream','kafka','log','journal','outbox')): return 'stream'
-    if any(x in n for x in ('db','store','ledger','inventory','wal','sstable','table','manifest','metadata shard','hash map','linked list','entry node','ttl min-heap','head / mru','tail / lru')): return 'data'
+    if any(x in words for x in ('db','database','store','ledger','inventory','wal','sstable','table','manifest')) or any(x in n for x in ('metadata shard','hash map','linked list','entry node','ttl min-heap','head / mru','tail / lru')): return 'data'
     if any(x in n for x in ('audit','metric','monitor','observ','reconcil','history','case','slo','fault')): return 'ops'
     if any(x in n for x in ('edge','gateway','front door','cdn','dns','endpoint','kiosk','api')): return 'edge'
     return 'service'

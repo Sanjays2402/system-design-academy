@@ -1,210 +1,310 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script>try{const t=localStorage.getItem('sda-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script><title>System Design Academy · 40 SDE2 Deep Dives</title><meta name="description" content="40 interview-ready SDE2 system and low-level design deep dives with animated architecture, diagrams, and follow-up answers."><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/landing.css"></head>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><script>try{const t=localStorage.getItem('sda-theme');if(t)document.documentElement.dataset.theme=t}catch{}</script><title>System Design Academy · 60 Architecture Deep Dives</title><meta name="description" content="60 system and low-level design deep dives with animated architecture, explicit trade-offs, and follow-up answers."><link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css"><link rel="stylesheet" href="assets/landing.css"></head>
 <body class="landing-page"><header class="topbar"><a class="brand" href="index.html"><b>SD</b>System Design Academy</a><div class="crumb">A field guide for systems that survive the follow-up</div><button class="theme-toggle" data-theme-toggle aria-label="Toggle black and white theme">Dark page</button></header>
-<main class="landing-wrap"><section class="hero-stage" aria-labelledby="landing-title"><div class="hero-copy"><div class="hero-kicker"><i class="live-dot"></i>40 interview systems · continuously deployable</div><h1 id="landing-title">Design the system.<span>Defend every choice.</span></h1><p class="hero-lede">An animated, long-form SDE2 curriculum for learning the invariants, bottlenecks, failure modes, and follow-ups behind production systems.</p><div class="hero-actions"><a class="hero-cta" href="designs/url-shortener.html">Start the curriculum <span class="arrow">→</span></a><a class="hero-cta secondary" href="#curriculum">Explore all systems</a></div><div class="hero-metrics"><div class="hero-metric"><b data-count="40">0</b><span>deep dives</span></div><div class="hero-metric"><b data-count="120">0</b><span>thousand words</span></div><div class="hero-metric"><b data-count="80">0</b><span>architecture diagrams</span></div></div></div>
+<main class="landing-wrap"><section class="hero-stage" aria-labelledby="landing-title"><div class="hero-copy"><div class="hero-kicker"><i class="live-dot"></i>60 production systems · continuously deployable</div><h1 id="landing-title">Design the system.<span>Defend every choice.</span></h1><p class="hero-lede">An animated, long-form curriculum for learning why an architecture works, what alternatives were rejected, and how invariants, bottlenecks, failures, and cost shape each choice.</p><div class="hero-actions"><a class="hero-cta" href="designs/url-shortener.html">Start the curriculum <span class="arrow">→</span></a><a class="hero-cta secondary" href="#curriculum">Explore all systems</a></div><div class="hero-metrics"><div class="hero-metric"><b data-count="60">0</b><span>deep dives</span></div><div class="hero-metric"><b data-count="270">0</b><span>thousand words</span></div><div class="hero-metric"><b data-count="120">0</b><span>architecture diagrams</span></div></div></div>
 <div class="topology-wrap" aria-label="Animated system topology"><div class="topology-shell"><div class="topology-label">LIVE ARCHITECTURE · REQUEST FLOW</div><canvas data-topology aria-hidden="true"></canvas><div class="topology-status"><i></i> packets flowing · no dependencies</div></div></div></section>
 <div class="signal-strip" aria-hidden="true"><span class="signal-label">Every chapter</span><div class="signal-track"><span class="signal-pill">Requirements</span><span class="signal-pill">Capacity math</span><span class="signal-pill">API contracts</span><span class="signal-pill">Partition keys</span><span class="signal-pill">Consistency</span><span class="signal-pill">Cache policy</span><span class="signal-pill">Failure matrix</span><span class="signal-pill">Multi-region</span><span class="signal-pill">Security</span><span class="signal-pill">Observability</span><span class="signal-pill">Requirements</span><span class="signal-pill">Capacity math</span><span class="signal-pill">API contracts</span><span class="signal-pill">Partition keys</span><span class="signal-pill">Consistency</span><span class="signal-pill">Cache policy</span><span class="signal-pill">Failure matrix</span><span class="signal-pill">Multi-region</span><span class="signal-pill">Security</span><span class="signal-pill">Observability</span></div></div>
 <section class="path-section"><div class="section-heading"><div><span class="eyebrow">Recommended path</span><h2>Build the mental model in four moves.</h2></div><p>Start with a compact read-heavy service, add distributed enforcement, learn ordered logs, then finish with a correctness-critical transaction system.</p></div><div class="learning-path"><a class="path-step" href="designs/url-shortener.html"><span class="step-no">01 · Start with scale</span><span class="path-line" aria-hidden="true"></span><h3>URL Shortener</h3><p>IDs, cache-aside reads, partitioning, and asynchronous analytics.</p></a><a class="path-step" href="designs/rate-limiter.html"><span class="step-no">02 · Protect the edge</span><span class="path-line" aria-hidden="true"></span><h3>Rate Limiter</h3><p>Distributed counters, failure policy, atomic updates, and tenant fairness.</p></a><a class="path-step" href="designs/message-queue.html"><span class="step-no">03 · Reason about order</span><span class="path-line" aria-hidden="true"></span><h3>Message Queue</h3><p>Partitions, durability, replication, consumer groups, and replay.</p></a><a class="path-step" href="designs/payment-system.html"><span class="step-no">04 · Protect the invariant</span><span class="path-line" aria-hidden="true"></span><h3>Payment System</h3><p>Idempotency, state machines, double-entry ledgers, and reconciliation.</p></a></div></section>
-<section class="curriculum-section" id="curriculum"><div class="section-heading"><div><span class="eyebrow">The curriculum</span><h2>Forty systems. No hand-waving.</h2></div><p>Filter by architecture family or search for a concept. Every design includes roughly 3,000 words, diagrams, failure analysis, and answer guidance.</p></div>
-<div class="curriculum-tools"><div class="tool-row"><div class="search-shell"><input class="search" type="search" data-curriculum-search placeholder="Search systems, categories, or concepts…" aria-label="Search the design curriculum"></div><span class="visible-count" data-visible-count>40 of 40 chapters</span></div><div class="category-rail" aria-label="Filter by category"><button class="filter-chip active" data-filter="all" aria-pressed="true">All systems</button><button class="filter-chip" data-filter="Collaboration" aria-pressed="false">Collaboration</button><button class="filter-chip" data-filter="Control Planes" aria-pressed="false">Control Planes</button><button class="filter-chip" data-filter="Coordination" aria-pressed="false">Coordination</button><button class="filter-chip" data-filter="Data Platforms" aria-pressed="false">Data Platforms</button><button class="filter-chip" data-filter="Distributed Data" aria-pressed="false">Distributed Data</button><button class="filter-chip" data-filter="Foundations" aria-pressed="false">Foundations</button><button class="filter-chip" data-filter="Geo &amp; Realtime" aria-pressed="false">Geo &amp; Realtime</button><button class="filter-chip" data-filter="Infrastructure" aria-pressed="false">Infrastructure</button><button class="filter-chip" data-filter="Low-Level Design" aria-pressed="false">Low-Level Design</button><button class="filter-chip" data-filter="ML Systems" aria-pressed="false">ML Systems</button><button class="filter-chip" data-filter="Media" aria-pressed="false">Media</button><button class="filter-chip" data-filter="Observability" aria-pressed="false">Observability</button><button class="filter-chip" data-filter="Platform" aria-pressed="false">Platform</button><button class="filter-chip" data-filter="Product Systems" aria-pressed="false">Product Systems</button><button class="filter-chip" data-filter="Realtime" aria-pressed="false">Realtime</button><button class="filter-chip" data-filter="Search" aria-pressed="false">Search</button><button class="filter-chip" data-filter="Storage" aria-pressed="false">Storage</button><button class="filter-chip" data-filter="Transactions" aria-pressed="false">Transactions</button></div></div>
+<section class="curriculum-section" id="curriculum"><div class="section-heading"><div><span class="eyebrow">The curriculum</span><h2>60 systems. No hand-waving.</h2></div><p>Filter by architecture family or search for a concept. Every design explains why the architecture was selected, rejected alternatives, trade-offs, evolution triggers, failure analysis, and answer guidance.</p></div>
+<div class="curriculum-tools"><div class="tool-row"><div class="search-shell"><input class="search" type="search" data-curriculum-search placeholder="Search systems, categories, or concepts…" aria-label="Search the design curriculum"></div><span class="visible-count" data-visible-count>60 of 60 chapters</span></div><div class="category-rail" aria-label="Filter by category"><button class="filter-chip active" data-filter="all" aria-pressed="true">All systems</button><button class="filter-chip" data-filter="Advertising" aria-pressed="false">Advertising</button><button class="filter-chip" data-filter="Collaboration" aria-pressed="false">Collaboration</button><button class="filter-chip" data-filter="Communication" aria-pressed="false">Communication</button><button class="filter-chip" data-filter="Control Planes" aria-pressed="false">Control Planes</button><button class="filter-chip" data-filter="Coordination" aria-pressed="false">Coordination</button><button class="filter-chip" data-filter="Data Platforms" aria-pressed="false">Data Platforms</button><button class="filter-chip" data-filter="Developer Infrastructure" aria-pressed="false">Developer Infrastructure</button><button class="filter-chip" data-filter="Distributed Data" aria-pressed="false">Distributed Data</button><button class="filter-chip" data-filter="Foundations" aria-pressed="false">Foundations</button><button class="filter-chip" data-filter="Geo &amp; Realtime" aria-pressed="false">Geo &amp; Realtime</button><button class="filter-chip" data-filter="Infrastructure" aria-pressed="false">Infrastructure</button><button class="filter-chip" data-filter="Low-Level Design" aria-pressed="false">Low-Level Design</button><button class="filter-chip" data-filter="ML Systems" aria-pressed="false">ML Systems</button><button class="filter-chip" data-filter="Media" aria-pressed="false">Media</button><button class="filter-chip" data-filter="Observability" aria-pressed="false">Observability</button><button class="filter-chip" data-filter="Platform" aria-pressed="false">Platform</button><button class="filter-chip" data-filter="Product Systems" aria-pressed="false">Product Systems</button><button class="filter-chip" data-filter="Realtime" aria-pressed="false">Realtime</button><button class="filter-chip" data-filter="Search" aria-pressed="false">Search</button><button class="filter-chip" data-filter="Security" aria-pressed="false">Security</button><button class="filter-chip" data-filter="Storage" aria-pressed="false">Storage</button><button class="filter-chip" data-filter="Transactions" aria-pressed="false">Transactions</button></div></div>
 <div class="catalog"><a class="design-card" data-category="Foundations" href="designs/url-shortener.html">
-          <div class="card-top"><span class="n">01 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">01 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>URL Shortener</h2><p>Create compact links, resolve them globally, and count clicks without slowing redirects.</p>
-          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Foundations" href="designs/rate-limiter.html">
-          <div class="card-top"><span class="n">02 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">02 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Rate Limiter</h2><p>Protect APIs with predictable quotas across a distributed fleet.</p>
-          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Product Systems" href="designs/notification-system.html">
-          <div class="card-top"><span class="n">03 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">03 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Notification System</h2><p>Deliver push, email, and SMS reliably while respecting preferences and provider limits.</p>
-          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Storage" href="designs/file-storage.html">
-          <div class="card-top"><span class="n">04 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">04 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>File Storage &amp; Sharing</h2><p>Upload, sync, version, and share large files with durable metadata and blob storage.</p>
-          <div class="card-meta"><span class="category">Storage</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Storage</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Realtime" href="designs/chat-system.html">
-          <div class="card-top"><span class="n">05 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">05 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Chat &amp; Messaging</h2><p>Deliver ordered messages, receipts, presence, and offline sync at global scale.</p>
-          <div class="card-meta"><span class="category">Realtime</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Realtime</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Product Systems" href="designs/news-feed.html">
-          <div class="card-top"><span class="n">06 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">06 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>News Feed</h2><p>Generate ranked, paginated feeds while absorbing celebrity fan-out.</p>
-          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Product Systems" href="designs/social-post-service.html">
-          <div class="card-top"><span class="n">07 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">07 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Social Post Service</h2><p>Create posts, media, follows, and public timelines with clear consistency boundaries.</p>
-          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Product Systems</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Media" href="designs/video-streaming.html">
-          <div class="card-top"><span class="n">08 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">08 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Video Streaming Platform</h2><p>Ingest videos, transcode variants, and stream globally with adaptive bitrate playback.</p>
-          <div class="card-meta"><span class="category">Media</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Media</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Geo &amp; Realtime" href="designs/ride-hailing.html">
-          <div class="card-top"><span class="n">09 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">09 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Ride-Hailing Service</h2><p>Track drivers, match nearby supply, and manage trips as a consistent state machine.</p>
-          <div class="card-meta"><span class="category">Geo &amp; Realtime</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Geo &amp; Realtime</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Transactions" href="designs/ticket-booking.html">
-          <div class="card-top"><span class="n">10 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">10 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Ticket Booking</h2><p>Reserve scarce seats under extreme contention without double booking.</p>
-          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Infrastructure" href="designs/api-gateway.html">
-          <div class="card-top"><span class="n">11 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">11 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>API Gateway</h2><p>Authenticate, route, protect, and observe traffic without becoming a single failure domain.</p>
-          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Infrastructure" href="designs/distributed-cache.html">
-          <div class="card-top"><span class="n">12 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">12 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Distributed Cache</h2><p>Serve low-latency reads with partitioning, eviction, replication, and predictable failure behavior.</p>
-          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Infrastructure" href="designs/job-scheduler.html">
-          <div class="card-top"><span class="n">13 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">13 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Job Scheduler</h2><p>Run delayed, recurring, and retryable work exactly when business semantics require.</p>
-          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Data Platforms" href="designs/web-crawler.html">
-          <div class="card-top"><span class="n">14 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">14 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Web Crawler</h2><p>Fetch the web politely, deduplicate URLs, and scale parsing and storage independently.</p>
-          <div class="card-meta"><span class="category">Data Platforms</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Data Platforms</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Search" href="designs/search-autocomplete.html">
-          <div class="card-top"><span class="n">15 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">15 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Search Autocomplete</h2><p>Return relevant prefix suggestions in milliseconds while trends change continuously.</p>
-          <div class="card-meta"><span class="category">Search</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Search</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Observability" href="designs/logging-monitoring.html">
-          <div class="card-top"><span class="n">16 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">16 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Logging &amp; Monitoring</h2><p>Ingest, index, retain, query, and alert on telemetry under bursty load.</p>
-          <div class="card-meta"><span class="category">Observability</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Observability</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Observability" href="designs/metrics-system.html">
-          <div class="card-top"><span class="n">17 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">17 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Metrics Collection</h2><p>Collect high-cardinality time series, aggregate them, and evaluate alerts reliably.</p>
-          <div class="card-meta"><span class="category">Observability</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Observability</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Distributed Data" href="designs/distributed-kv-store.html">
-          <div class="card-top"><span class="n">18 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">18 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Distributed Key-Value Store</h2><p>Partition, replicate, and reconcile key-value data through failures and topology changes.</p>
-          <div class="card-meta"><span class="category">Distributed Data</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Distributed Data</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Transactions" href="designs/payment-system.html">
-          <div class="card-top"><span class="n">19 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">19 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Payment Processing</h2><p>Accept money with idempotency, an auditable ledger, and reconciliation across unreliable partners.</p>
-          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Transactions" href="designs/shopping-cart.html">
-          <div class="card-top"><span class="n">20 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">20 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Shopping Cart &amp; Checkout</h2><p>Coordinate carts, inventory, pricing, orders, and payments without distributed transactions.</p>
-          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Collaboration" href="designs/collaborative-editor.html">
-          <div class="card-top"><span class="n">21 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">21 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Collaborative Document Editor</h2><p>Merge concurrent edits, broadcast presence, and persist recoverable document history.</p>
-          <div class="card-meta"><span class="category">Collaboration</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Collaboration</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Storage" href="designs/object-storage.html">
-          <div class="card-top"><span class="n">22 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">22 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Cloud Object Storage</h2><p>Store immutable objects with multipart upload, replication, versioning, and extreme durability.</p>
-          <div class="card-meta"><span class="category">Storage</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Storage</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Distributed Data" href="designs/message-queue.html">
-          <div class="card-top"><span class="n">23 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">23 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Distributed Message Queue</h2><p>Provide ordered partitions, durable retention, consumer groups, and replayable offsets.</p>
-          <div class="card-meta"><span class="category">Distributed Data</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Distributed Data</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Control Planes" href="designs/feature-flags.html">
-          <div class="card-top"><span class="n">24 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">24 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Feature Flag Service</h2><p>Evaluate flags locally at low latency while configuration changes propagate safely.</p>
-          <div class="card-meta"><span class="category">Control Planes</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Control Planes</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="ML Systems" href="designs/recommendation-system.html">
-          <div class="card-top"><span class="n">25 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">25 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Recommendation System</h2><p>Collect behavior, train representations, retrieve candidates, and rank them online.</p>
-          <div class="card-meta"><span class="category">ML Systems</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">ML Systems</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="ML Systems" href="designs/fraud-detection.html">
-          <div class="card-top"><span class="n">26 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">26 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Fraud Detection Pipeline</h2><p>Score risky events in real time while preserving explainability, audit, and model evolution.</p>
-          <div class="card-meta"><span class="category">ML Systems</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">ML Systems</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Control Planes" href="designs/configuration-service.html">
-          <div class="card-top"><span class="n">27 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">27 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Configuration Management</h2><p>Version, validate, watch, and roll out configuration without taking services down.</p>
-          <div class="card-meta"><span class="category">Control Planes</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Control Planes</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Coordination" href="designs/distributed-lock.html">
-          <div class="card-top"><span class="n">28 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">28 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Distributed Lock Service</h2><p>Coordinate exclusive work using leases and fencing rather than trusting process ownership.</p>
-          <div class="card-meta"><span class="category">Coordination</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Coordination</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Platform" href="designs/multi-tenant-saas.html">
-          <div class="card-top"><span class="n">29 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">29 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Multi-Tenant SaaS</h2><p>Isolate tenants across identity, data, compute, quotas, and operations.</p>
-          <div class="card-meta"><span class="category">Platform</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Platform</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Foundations" href="designs/unique-id-generator.html">
-          <div class="card-top"><span class="n">30 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">30 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Unique ID Generator</h2><p>Generate sortable, globally unique identifiers without a central database bottleneck.</p>
-          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Foundations</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/parking-lot.html">
-          <div class="card-top"><span class="n">31 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">31 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Parking Lot</h2><p>Model entrances, spots, tickets, pricing, and concurrent allocation across floors.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/elevator-system.html">
-          <div class="card-top"><span class="n">32 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">32 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Elevator System</h2><p>Schedule cars, serve hall and cabin requests, and preserve safety under concurrent events.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/library-management.html">
-          <div class="card-top"><span class="n">33 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">33 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Library Management</h2><p>Manage catalog items, copies, members, holds, loans, fines, and notifications.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/meeting-room-scheduler.html">
-          <div class="card-top"><span class="n">34 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">34 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Meeting Room Scheduler</h2><p>Find rooms, reserve time ranges, invite attendees, and prevent overlapping bookings.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/atm.html">
-          <div class="card-top"><span class="n">35 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">35 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>ATM</h2><p>Authenticate users, dispense cash, and coordinate account transactions with device state.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/vending-machine.html">
-          <div class="card-top"><span class="n">36 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">36 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Vending Machine</h2><p>Accept payment, select products, dispense inventory, return change, and recover faults.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/board-card-game.html">
-          <div class="card-top"><span class="n">37 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">37 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Chess or Card Game</h2><p>Represent legal moves, turns, game state, persistence, and optional multiplayer synchronization.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/logging-framework.html">
-          <div class="card-top"><span class="n">38 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">38 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Logging Framework</h2><p>Design structured logging APIs, levels, appenders, formatting, buffering, and rotation.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/lru-cache.html">
-          <div class="card-top"><span class="n">39 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">39 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>In-Memory LRU Cache</h2><p>Provide O(1) get/put, eviction, capacity control, and optional expiration safely.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a><a class="design-card" data-category="Low-Level Design" href="designs/task-management.html">
-          <div class="card-top"><span class="n">40 / 40</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-top"><span class="n">40 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
           <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h2>Task Management System</h2><p>Model projects, tasks, assignment, status workflows, dependencies, comments, and audit history.</p>
-          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3K words · 2 diagrams</span></div>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Search" href="designs/web-search-engine.html">
+          <div class="card-top"><span class="n">41 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Web Search Engine</h2><p>Crawl, index, rank, and serve the open web with fresh, trustworthy results.</p>
+          <div class="card-meta"><span class="category">Search</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Communication" href="designs/email-service.html">
+          <div class="card-top"><span class="n">42 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Email Service</h2><p>Accept, route, store, filter, and synchronize email across unreliable external domains.</p>
+          <div class="card-meta"><span class="category">Communication</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Media" href="designs/live-streaming.html">
+          <div class="card-top"><span class="n">43 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Live Streaming Platform</h2><p>Ingest live video, transcode continuously, and deliver low-latency playback to massive audiences.</p>
+          <div class="card-meta"><span class="category">Media</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Advertising" href="designs/ad-serving.html">
+          <div class="card-top"><span class="n">44 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Advertisement Serving</h2><p>Select eligible ads, pace budgets, and record billable events within a strict latency budget.</p>
+          <div class="card-meta"><span class="category">Advertising</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Transactions" href="designs/stock-exchange.html">
+          <div class="card-top"><span class="n">45 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Stock Exchange</h2><p>Accept orders, match deterministically, publish market data, and preserve an auditable ledger.</p>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Geo &amp; Realtime" href="designs/food-delivery.html">
+          <div class="card-top"><span class="n">46 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Food Delivery Marketplace</h2><p>Coordinate menus, orders, restaurants, couriers, dispatch, and settlement in real time.</p>
+          <div class="card-meta"><span class="category">Geo &amp; Realtime</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Transactions" href="designs/hotel-reservation.html">
+          <div class="card-top"><span class="n">47 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Hotel Reservation Platform</h2><p>Search inventory and reserve room-night capacity without overselling across channels.</p>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Transactions" href="designs/digital-wallet.html">
+          <div class="card-top"><span class="n">48 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Digital Wallet</h2><p>Hold balances, transfer value, enforce limits, and reconcile funding rails safely.</p>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Low-Level Design" href="designs/expense-sharing.html">
+          <div class="card-top"><span class="n">49 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Expense Sharing</h2><p>Model groups, split strategies, debts, settlements, and simplified balances without losing history.</p>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Transactions" href="designs/auction-platform.html">
+          <div class="card-top"><span class="n">50 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Online Auction</h2><p>Run timed auctions, enforce bid ordering, extend deadlines, and settle winners consistently.</p>
+          <div class="card-meta"><span class="category">Transactions</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Geo &amp; Realtime" href="designs/maps-navigation.html">
+          <div class="card-top"><span class="n">51 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Maps and Navigation</h2><p>Serve maps, geocode places, compute routes, and update travel times from live traffic.</p>
+          <div class="card-meta"><span class="category">Geo &amp; Realtime</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Control Planes" href="designs/service-discovery.html">
+          <div class="card-top"><span class="n">52 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Service Discovery</h2><p>Register instances, publish health-aware endpoints, and provide stable discovery through partitions.</p>
+          <div class="card-meta"><span class="category">Control Planes</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Security" href="designs/secrets-management.html">
+          <div class="card-top"><span class="n">53 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Secrets Management</h2><p>Store, authorize, rotate, lease, and audit secrets without exposing plaintext broadly.</p>
+          <div class="card-meta"><span class="category">Security</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Developer Infrastructure" href="designs/ci-cd-platform.html">
+          <div class="card-top"><span class="n">54 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>CI/CD Platform</h2><p>Trigger reproducible builds, schedule isolated runners, preserve artifacts, and deploy safely.</p>
+          <div class="card-meta"><span class="category">Developer Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Developer Infrastructure" href="designs/package-registry.html">
+          <div class="card-top"><span class="n">55 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Package Registry</h2><p>Publish immutable packages, resolve versions, scan artifacts, and distribute them globally.</p>
+          <div class="card-meta"><span class="category">Developer Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Infrastructure" href="designs/workflow-orchestrator.html">
+          <div class="card-top"><span class="n">56 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Workflow Orchestrator</h2><p>Run durable multi-step workflows that survive retries, timers, worker crashes, and long waits.</p>
+          <div class="card-meta"><span class="category">Infrastructure</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Distributed Data" href="designs/distributed-sql.html">
+          <div class="card-top"><span class="n">57 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Distributed SQL Database</h2><p>Provide SQL transactions over sharded, replicated data with online rebalancing.</p>
+          <div class="card-meta"><span class="category">Distributed Data</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Security" href="designs/identity-auth.html">
+          <div class="card-top"><span class="n">58 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Identity and Authentication</h2><p>Authenticate humans and services, issue sessions/tokens, enforce MFA, and revoke compromised access.</p>
+          <div class="card-meta"><span class="category">Security</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Low-Level Design" href="designs/spreadsheet-engine.html">
+          <div class="card-top"><span class="n">59 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>Spreadsheet Engine</h2><p>Model cells, formulas, dependencies, recalculation, cycles, and collaborative edits.</p>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
+        </a><a class="design-card" data-category="Low-Level Design" href="designs/file-system.html">
+          <div class="card-top"><span class="n">60 / 60</span><span class="card-arrow" aria-hidden="true">↗</span></div>
+          <div class="card-graph" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <h2>File System</h2><p>Design files, directories, inodes, block allocation, journaling, caching, and crash recovery.</p>
+          <div class="card-meta"><span class="category">Low-Level Design</span><span class="card-depth">3.5K+ words · rationale · 2 diagrams</span></div>
         </a></div><div class="empty">No system matches that filter. Try a broader concept.</div></section>
-<footer class="landing-footer"><p>Original interview-learning artifact · 40 systems · 122K+ words · 80 custom diagrams.</p><p><a href="https://github.com/Sanjays2402/system-design-academy">Source on GitHub ↗</a></p></footer></main><script src="assets/site.js"></script><script src="assets/landing.js"></script></body></html>
+<footer class="landing-footer"><p>Original architecture-learning artifact · 60 systems · explicit trade-offs · 120 custom diagrams.</p><p><a href="https://github.com/Sanjays2402/system-design-academy">Source on GitHub ↗</a></p></footer></main><script src="assets/site.js"></script><script src="assets/landing.js"></script></body></html>

@@ -3,6 +3,8 @@ from html.parser import HTMLParser
 from html import unescape, escape
 import json, re, sys
 from design_specs import SPECS
+from extra_designs import SPECS as EXTRA_SPECS
+SPECS.update(EXTRA_SPECS)
 
 ROOT=Path(__file__).parent/'site'
 manifest=json.loads((ROOT/'manifest.json').read_text())
@@ -21,6 +23,8 @@ class Parser(HTMLParser):
 pages=[ROOT/'index.html']+sorted((ROOT/'designs').glob('*.html'))
 expected_pages=manifest['count']+1
 if len(pages)!=expected_pages:errors.append(f'expected {expected_pages} pages, got {len(pages)}')
+if manifest['count']!=60:errors.append(f'expected 60 design routes, got {manifest["count"]}')
+if len(SPECS)!=60:errors.append(f'expected 60 complete design specifications, got {len(SPECS)}')
 expected={'requirements','scale','contract','decisions','flows','performance','consistency','failures','operations','followups','interview'}
 for page in pages:
     p=Parser(); text=page.read_text(); p.feed(text)
@@ -52,6 +56,9 @@ for page in pages:
         if text.count('<table')<6:errors.append(f'{page.name}: expected >=6 focused tables')
         if text.count('<pre')<5:errors.append(f'{page.name}: expected >=5 code/data blocks')
         if text.count('<details')<8:errors.append(f'{page.name}: expected >=8 focused expandable discussions')
+        if text.count('class="rationale-card"')!=3:errors.append(f'{page.name}: expected exactly 3 architecture rationale deep dives')
+        for phrase in ['Rejected alternative','Cost and evolution trigger','Why this architecture and what it costs','Why this design:']:
+            if phrase not in text:errors.append(f'{page.name}: missing architecture rationale phrase {phrase}')
         slug=page.stem; spec=SPECS.get(slug)
         if not spec:errors.append(f'{page.name}: missing design specification')
         else:
@@ -85,6 +92,9 @@ for token in ['prefers-reduced-motion','IntersectionObserver','requestAnimationF
     if token not in landing_js+landing_css:errors.append(f'landing motion missing: {token}')
 if landing.count('class="design-card"')!=manifest['count']:
     errors.append(f'landing expected {manifest["count"]} design cards')
+removed_label='sd'+'e2'
+for path in pages+[ROOT/'manifest.json']:
+    if removed_label in path.read_text().lower():errors.append(f'{path.name}: contains removed audience label')
 call_flow_js=(ROOT/'assets/call-flow.js').read_text()
 call_flow_css=(ROOT/'assets/call-flow.css').read_text()
 if 'flow-badge' in call_flow_js:errors.append('call-flow center badges must not obscure component labels')
