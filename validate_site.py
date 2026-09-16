@@ -95,6 +95,18 @@ if landing.count('class="design-card"')!=manifest['count']:
 removed_label='sd'+'e2'
 for path in pages+[ROOT/'manifest.json']:
     if removed_label in path.read_text().lower():errors.append(f'{path.name}: contains removed audience label')
+BASE_URL='https://sanjays2402.github.io/system-design-academy'
+sitemap=ROOT/'sitemap.xml'
+if not sitemap.exists():errors.append('missing sitemap.xml')
+else:
+    xml=sitemap.read_text()
+    expected_urls=[f'{BASE_URL}/']+[f'{BASE_URL}/designs/{slug}.html' for slug in manifest['pages']]
+    if len(expected_urls)!=61:errors.append(f'expected 61 sitemap URLs, got {len(expected_urls)}')
+    for u in expected_urls:
+        if f'<loc>{u}</loc>' not in xml:errors.append(f'sitemap missing {u}')
+robots=ROOT/'robots.txt'
+if not robots.exists():errors.append('missing robots.txt')
+elif f'Sitemap: {BASE_URL}/sitemap.xml' not in robots.read_text():errors.append('robots.txt missing sitemap reference')
 call_flow_js=(ROOT/'assets/call-flow.js').read_text()
 call_flow_css=(ROOT/'assets/call-flow.css').read_text()
 if 'flow-badge' in call_flow_js:errors.append('call-flow center badges must not obscure component labels')

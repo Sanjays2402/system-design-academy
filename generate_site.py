@@ -185,4 +185,8 @@ DESIGNS.mkdir(parents=True); ASSETS.mkdir(parents=True)
 (OUT/'.nojekyll').write_text('')
 for i,item in enumerate(Q): (DESIGNS/f'{item[1]}.html').write_text(page(item,i))
 (OUT/'manifest.json').write_text(json.dumps({"pages":[q[1] for q in Q],"count":len(Q)},indent=2))
+BASE='https://sanjays2402.github.io/system-design-academy'
+(OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+f'<url><loc>{BASE}/</loc></url>\n'+''.join(f'<url><loc>{BASE}/designs/{q[1]}.html</loc></url>\n' for q in Q)+'</urlset>')
+(OUT/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
 print(f"Generated {len(Q)+1} HTML pages in {OUT}")

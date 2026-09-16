@@ -43,7 +43,11 @@ python3 generate_site.py
 python3 validate_site.py
 ```
 
-The validator checks the 60-route manifest, internal links, required sections, diagram/call-flow behavior, complete per-design specifications, component-level rejected alternatives and evolution triggers, rationale deep dives, responsive/theme assets, and storage-safe theme handling.
+The validator checks the 60-route manifest, internal links, required sections, diagram/call-flow behavior, complete per-design specifications, component-level rejected alternatives and evolution triggers, rationale deep dives, responsive/theme assets, storage-safe theme handling, and the `sitemap.xml` / `robots.txt` discovery files (all 61 routes listed, sitemap referenced from robots).
+
+## SEO / discovery
+
+`generate_site.py` emits `site/sitemap.xml` (landing page + all 60 design chapters) and `site/robots.txt` (referencing the sitemap) so search engines can discover every chapter of the public curriculum.
 
 ## Deployment
 
