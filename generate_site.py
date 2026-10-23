@@ -190,3 +190,7 @@ BASE='https://sanjays2402.github.io/system-design-academy'
 f'<url><loc>{BASE}/</loc></url>\n'+''.join(f'<url><loc>{BASE}/designs/{q[1]}.html</loc></url>\n' for q in Q)+'</urlset>')
 (OUT/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {BASE}/sitemap.xml\n')
 print(f"Generated {len(Q)+1} HTML pages in {OUT}")
+
+# Legal pages live outside site/ because site/ is rebuilt from scratch.
+for _f in (ROOT / 'legal').glob('*.html'):
+    shutil.copy(_f, OUT / _f.name)
